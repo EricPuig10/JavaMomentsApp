@@ -44,6 +44,8 @@ public class MomentController {
         moment.setTitle(momentToEdit.getTitle());;
         moment.setDescription(momentToEdit.getDescription());
         moment.setImgUrl(momentToEdit.getImgUrl());
+        moment.setUbication(momentToEdit.getUbication());
+        moment.setLiked(!moment.isLiked());
         final Moment updatedMoment = this.momentsRepository.save(moment);
         return updatedMoment;
     }
@@ -57,9 +59,19 @@ public class MomentController {
 
     @GetMapping(value="/moments", params="search")
     List<Moment> getSearch(@RequestParam String search){
-        var searched = this.momentsRepository.findByTitle(search);
-        return searched;
+        var searchCollection = this.momentsRepository.findByTitleOrDescriptionContaining(search);
+        return searchCollection;
     }
+
+    @PatchMapping("/moments/{id}/{action}")
+    Moment saveMoment(@PathVariable Long id, @PathVariable String action){
+        Moment moment = this.momentsRepository.findById(id).get();
+        if(action.equals("like")){ moment.setLiked(!moment.isLiked());}
+        final Moment updatedMoment = this.momentsRepository.save(moment);
+        return updatedMoment;
+    }
+
+
 
 
 
