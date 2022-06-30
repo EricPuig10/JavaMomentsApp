@@ -13,8 +13,9 @@ import java.util.List;
 public interface IMomentsRepository extends JpaRepository<Moment, Long> {
     List<Moment> findByTitle(String search);
 
-    @Query("select m from Moment m where m.title like %:search% or m.description like %:search%")
-    List<Moment> findByTitleOrDescriptionContaining(@Param("search")String search);
+    @Query("select m from Moment m " +
+            "where upper(m.title) like upper(concat('%', ?1, '%')) or upper(m.description) like upper(concat('%', ?2, '%'))")
+    List<Moment> findByTitleContainsIgnoreCaseOrDescriptionContainsIgnoreCase(String title, String description);
 
 
 

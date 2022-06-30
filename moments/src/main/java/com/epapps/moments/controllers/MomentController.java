@@ -59,7 +59,7 @@ public class MomentController {
 
     @GetMapping(value="/moments", params="search")
     List<Moment> getSearch(@RequestParam String search){
-        var searchCollection = this.momentsRepository.findByTitleOrDescriptionContaining(search);
+        var searchCollection = this.momentsRepository.findByTitleContainsIgnoreCaseOrDescriptionContainsIgnoreCase(search, search);
         return searchCollection;
     }
 
