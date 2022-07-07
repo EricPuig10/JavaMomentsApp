@@ -1,7 +1,11 @@
 package com.epapps.moments.controllers;
 
+import com.epapps.moments.dtos.MomentRequestDto;
 import com.epapps.moments.models.Moment;
+import com.epapps.moments.models.User;
 import com.epapps.moments.repositories.IMomentsRepository;
+import com.epapps.moments.services.IMomentService;
+import com.epapps.moments.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,67 +13,59 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin (origins="http://localhost:4000")
+@CrossOrigin (origins="*")
 public class MomentController {
 
-    private IMomentsRepository momentsRepository;
+    private IMomentService momentService;
+    private IUserService userService;
 
-    @Autowired
-    public MomentController(IMomentsRepository momentsRepository) {
-        this.momentsRepository = momentsRepository;
+    public MomentController(IMomentService momentService, IUserService userService) {
+        this.momentService = momentService;
+        this.userService = userService;
+    }
+
+    private User getAuthUser() {
+        return userService.getById(1L);
     }
 
     @GetMapping("/moments")
     List<Moment> getAll() {
-        var momentsList = this.momentsRepository.findAll();
-        return momentsList;
+        return this.momentService.getAll();
     }
+
     @GetMapping ("/moments/{id}")
     Moment getMomentById(@PathVariable Long id){
-        var moment = this.momentsRepository.findById(id).get();
+        var moment = this.momentService.findById(id);
         return moment;
     }
 
     @PostMapping("/moments")
-    Moment createMoment(@RequestBody Moment newMoment){
-        var moment = momentsRepository.save(newMoment);
-        return moment;
+    Moment createMoment(@RequestBody MomentRequestDto momentRequestDto){
+        User authUser = getAuthUser();
+        return momentService.create(momentRequestDto, authUser);
     }
+
 
     @PutMapping("/moments/{id}")
     Moment updateMoment(@PathVariable Long id, @RequestBody Moment momentToEdit){
 
-        Moment moment = this.momentsRepository.findById(id).get();
-
-        moment.setTitle(momentToEdit.getTitle());;
-        moment.setDescription(momentToEdit.getDescription());
-        moment.setImgUrl(momentToEdit.getImgUrl());
-        moment.setUbication(momentToEdit.getUbication());
-        moment.setLiked(!moment.isLiked());
-        final Moment updatedMoment = this.momentsRepository.save(moment);
-        return updatedMoment;
+        return momentService.updateAMoment(momentToEdit, id);
     }
+
 
     @DeleteMapping("/moments/{id}")
     public boolean deleteMoment(@PathVariable Long id) {
-        Moment moment = this.momentsRepository.findById(id).get();
-        this.momentsRepository.delete(moment);
-        return true;
+        return momentService.deleteMoment(id);
     }
+
+
 
     @GetMapping(value="/moments", params="search")
     List<Moment> getSearch(@RequestParam String search){
-        var searchCollection = this.momentsRepository.findByTitleContainsIgnoreCaseOrDescriptionContainsIgnoreCase(search, search);
-        return searchCollection;
+        return momentService.search(search);
     }
 
-    @PatchMapping("/moments/{id}/{action}")
-    Moment saveMoment(@PathVariable Long id, @PathVariable String action){
-        Moment moment = this.momentsRepository.findById(id).get();
-        if(action.equals("like")){ moment.setLiked(!moment.isLiked());}
-        final Moment updatedMoment = this.momentsRepository.save(moment);
-        return updatedMoment;
-    }
+
 
 
 

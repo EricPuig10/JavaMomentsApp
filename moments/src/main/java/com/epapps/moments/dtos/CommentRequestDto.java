@@ -1,6 +1,7 @@
 package com.epapps.moments.dtos;
 
 
+import com.epapps.moments.models.Moment;
 import lombok.Data;
 
 @Data

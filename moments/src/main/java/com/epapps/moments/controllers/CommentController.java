@@ -1,44 +1,51 @@
+
 package com.epapps.moments.controllers;
 
 import com.epapps.moments.dtos.CommentRequestDto;
+import com.epapps.moments.dtos.MomentRequestDto;
 import com.epapps.moments.models.Comment;
 import com.epapps.moments.models.Moment;
+import com.epapps.moments.models.User;
 import com.epapps.moments.repositories.ICommentRepository;
 import com.epapps.moments.repositories.IMomentsRepository;
+import com.epapps.moments.services.ICommentService;
+import com.epapps.moments.services.IUserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4000")
+@CrossOrigin(origins="http://localhost:4000/")
 public class CommentController {
-    private ICommentRepository commentRepository;
-    private IMomentsRepository momentsRepository;
+    private ICommentService commentService;
+    private IUserService userService;
 
-    public CommentController(ICommentRepository commentRepository, IMomentsRepository momentsRepository) {
-        this.commentRepository = commentRepository;
-        this.momentsRepository = momentsRepository;
+
+    public CommentController(ICommentService commentService, IUserService userService) {
+        this.commentService = commentService;
+        this.userService = userService;
     }
 
     @GetMapping("/comments")
     List<Comment> getAll(){
-        return this.commentRepository.findAll();
+        return this.commentService.getAll();
     }
 
+
+    @CrossOrigin(origins = "*")
     @PostMapping("/comments")
     Comment createComment(@RequestBody CommentRequestDto commentDto){
-        var newComment = new Comment();
-        newComment.setComment(commentDto.getComment());
-        var moment = this.momentsRepository.findById(commentDto.getMomentId()).get();
-        newComment.setMoment(moment);
-        return this.commentRepository.save(newComment);
+        User authUser = getAuthUser();
+        return commentService.create(commentDto, authUser);
     }
 
-    /*
-    @GetMapping("/momen/{id}")
-    Comment getCommentsByMomentId(@PathVariable Long id) {
-        var comment = this.commentRepository.findById(id).get();
-        return comment;
-    }*/
+
+
+    private User getAuthUser() {
+        return userService.getById(1L);
+    }
+
+
 }
+

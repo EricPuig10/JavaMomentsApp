@@ -16,7 +16,14 @@ public class Comment {
     private String comment;
 
     @ManyToOne
+    @JoinColumn(name="creator_id")
+    @JsonIgnore
+    private User creator;
+
+    @ManyToOne
     @JoinColumn(name = "moment_id")
     @JsonIgnore
     private Moment moment;
+
+
 }
