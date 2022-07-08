@@ -10,6 +10,10 @@ import java.util.Map;
 public interface ICommentService {
     List<Comment> getAll();
 
+    Comment findById(Long id);
+
     Comment create(CommentRequestDto commentDto, User userAuth);
+
+    Comment likeComment (Long id);
 
 }

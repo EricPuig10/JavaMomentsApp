@@ -31,6 +31,12 @@ public class CommentService implements ICommentService{
     }
 
     @Override
+    public Comment findById(Long id) {
+        return commentRepository.findById(id).get();
+    }
+
+
+    @Override
     public Comment create(CommentRequestDto commentDto, User auth) {
         Comment comment = new Comment();
         Moment moment = this.momentsRepository.findById(commentDto.getMomentId()).get();
@@ -41,10 +47,14 @@ public class CommentService implements ICommentService{
 
     }
 
+    @Override
+    public Comment likeComment( Long id ){
+        Comment comment = this.commentRepository.findById(id).get();
 
-
-
-
+        comment.setLiked(!comment.isLiked());
+        final Comment likedComment = this.commentRepository.save(comment);
+        return likedComment;
+    }
 
 
 }

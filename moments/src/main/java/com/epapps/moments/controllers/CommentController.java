@@ -40,6 +40,17 @@ public class CommentController {
         return commentService.create(commentDto, authUser);
     }
 
+    @GetMapping ("/comments/{id}")
+    Comment getCommentById(@PathVariable Long id){
+        var comment = this.commentService.findById(id);
+        return comment;
+    }
+
+    @PutMapping("/comments/{id}")
+    Comment likeComment(@PathVariable Long id, @RequestBody Comment comment){
+    return this.commentService.likeComment(id);
+    }
+
 
 
     private User getAuthUser() {

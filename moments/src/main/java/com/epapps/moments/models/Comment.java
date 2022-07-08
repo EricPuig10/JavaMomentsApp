@@ -14,6 +14,7 @@ public class Comment {
     @Column(name = "id", nullable = false)
     private Long id;
     private String comment;
+    private boolean isLiked = false;
 
     @ManyToOne
     @JoinColumn(name="creator_id")

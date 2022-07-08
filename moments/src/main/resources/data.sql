@@ -51,22 +51,10 @@ VALUES
               (title, img_Url, description, ubication, is_Liked, creator_id)
             VALUES
               ('Snowed mountains', 'https://cdn.pixabay.com/photo/2017/02/01/22/02/mountain-landscape-2031539_960_720.jpg', 'This is a mountain landscape', 'Mountains', FALSE, 1);
+
 INSERT
 INTO
   comments
-  (comment, moment_id, creator_id)
+  (comment, is_Liked, creator_id, moment_id)
 VALUES
-  ('Soc el comment 1', 1, 1);
-
-  INSERT
-  INTO
-    comments
-    (comment, moment_id, creator_id)
-  VALUES
-    ('Holaa', 1, 1);
-    INSERT
-    INTO
-      comments
-      (comment, moment_id, creator_id)
-    VALUES
-      ('Holaaaaaaaaa', 3, 1);
+  ('Soc un comment que em podran posar like.', FALSE, 1, 1);
