@@ -9,6 +9,13 @@ INTO
 VALUES
   ('Eric', 'eric_puig', 'https://media-exp2.licdn.com/dms/image/C4D03AQG17WUfd78sgA/profile-displayphoto-shrink_400_400/0/1587477510501?e=1661385600&v=beta&t=lxPzlDjTbmYs0vSz-B7ef95gRfs-T5Dxj_RTLrcSO8Y', 'password', 'firstuser@gmail.com');
 
+INSERT
+INTO
+  users
+  (name, user_Name, user_Img, password, email)
+VALUES
+  ('Monalisa', 'monalisa_official', 'https://ichef.bbci.co.uk/news/640/cpsprodpb/17C16/production/_117320379_giocondacerca.jpg', 'password', 'monalisa@gmail.com');
+
   INSERT
 INTO
   moments
@@ -21,7 +28,7 @@ VALUES
     moments
     (title, img_Url, description, ubication, is_Liked, creator_id)
   VALUES
-    ('Rainy day', 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg', 'This is a rainy day', 'Transilvania', TRUE, 1);
+    ('Rainy day', 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg', 'This is a rainy day', 'Transilvania', TRUE, 2);
       INSERT
     INTO
       moments
