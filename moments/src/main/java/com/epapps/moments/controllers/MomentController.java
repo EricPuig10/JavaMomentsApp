@@ -48,14 +48,21 @@ public class MomentController {
 
     @PutMapping("/moments/{id}")
     Moment updateMoment(@PathVariable Long id, @RequestBody Moment momentToEdit){
-
-        return momentService.updateAMoment(momentToEdit, id);
+        User authUser = getAuthUser();
+        return momentService.updateAMoment(momentToEdit, authUser);
     }
 
 
     @DeleteMapping("/moments/{id}")
     public boolean deleteMoment(@PathVariable Long id) {
-        return momentService.deleteMoment(id);
+        User authUser = getAuthUser();
+        return momentService.deleteMoment(id, authUser);
+    }
+
+    @PatchMapping("/moments/{id}/like")
+    Moment like(@PathVariable Long id, @RequestBody Moment moment){
+        //User auth = getAuthUser();
+        return momentService.like(id, moment);
     }
 
 

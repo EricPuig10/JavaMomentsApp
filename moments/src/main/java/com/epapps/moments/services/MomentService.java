@@ -7,6 +7,7 @@ import com.epapps.moments.repositories.IMomentsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MomentService implements IMomentService {
@@ -35,25 +36,31 @@ public class MomentService implements IMomentService {
 
     @Override
     public Moment findById(Long id) {
+
         return momentsRepository.findById(id).get();
     }
 
 
-    public Moment updateAMoment(Moment momentToEdit, Long id){
-    Moment moment = this.momentsRepository.findById(id).get();
+    public Moment updateAMoment(Moment momentToEdit, User auth){
 
+    Moment moment = this.momentsRepository.findById(momentToEdit.getId()).get();
+
+    if(auth.getId() != moment.getCreator().getId()) {
+        return null;
+    }
         moment.setTitle(momentToEdit.getTitle());;
         moment.setDescription(momentToEdit.getDescription());
         moment.setImgUrl(momentToEdit.getImgUrl());
         moment.setUbication(momentToEdit.getUbication());
-        moment.setLiked(!moment.isLiked());
-    final Moment updatedMoment = this.momentsRepository.save(moment);
+        moment.setCreator(auth);
+        Moment updatedMoment = this.momentsRepository.save(moment);
         return updatedMoment;
-}
+    }
 
     @Override
-    public Boolean deleteMoment(Long id) {
+    public Boolean deleteMoment(Long id, User auth) {
         Moment moment = this.momentsRepository.findById(id).get();
+        if(!moment.getCreator().getId().equals(auth.getId())) return null;
         this.momentsRepository.delete(moment);
         return true;
     }
@@ -62,6 +69,15 @@ public class MomentService implements IMomentService {
     public List<Moment> search(String search) {
         var searchCollection = this.momentsRepository.findByTitleContainsIgnoreCaseOrDescriptionContainsIgnoreCase(search, search);
         return searchCollection;
+    }
+
+    @Override
+    public Moment like(Long id, Moment moment) {
+        Moment momentToLike = momentsRepository.findById(moment.getId()).get();
+        //if(moment.getCreator().getId() == auth.getId()) return null;
+        moment.setLiked(!momentToLike.isLiked());
+        Moment momentLiked = momentsRepository.save(moment);
+        return momentLiked;
     }
 
 

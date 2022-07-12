@@ -25,7 +25,7 @@ public class Moment {
     private String imgUrl;
 
     @Column(nullable = false)
-    @NotNull
+    //@NotNull
     private String description;
 
     private String ubication;
@@ -35,17 +35,31 @@ public class Moment {
 
 
 
+
     @OneToMany(mappedBy = "moment")
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> commentsList = new ArrayList<>();
+
+    public Moment(String title, Long id, String imgUrl, String ubication, String description, boolean isLiked) {
+
+    }
 
 
     @JsonSerialize
     public int commentsCount(){
-        return this.comments.size();
+        return this.commentsList.size();
     }
+
+    public void addComment(Comment comment) {
+        this.commentsList.add(comment);
+    }
+
 
     @ManyToOne
     @JoinColumn(name="creator_id")
     private User creator;
-    }
+
+
+
+
+}
 

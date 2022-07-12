@@ -15,9 +15,11 @@ public interface IMomentService {
 
     Moment findById(Long id);
 
-    Moment updateAMoment(Moment momentToEdit, Long id);
+    Moment updateAMoment(Moment momentToEdit, User authUser);
 
-    Boolean deleteMoment(Long id);
+    Boolean deleteMoment(Long id, User auth);
 
     List<Moment> search(String search);
+
+    Moment like(Long id, Moment moment);
 }

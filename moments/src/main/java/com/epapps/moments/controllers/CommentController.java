@@ -2,17 +2,13 @@
 package com.epapps.moments.controllers;
 
 import com.epapps.moments.dtos.CommentRequestDto;
-import com.epapps.moments.dtos.MomentRequestDto;
 import com.epapps.moments.models.Comment;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
-import com.epapps.moments.repositories.ICommentRepository;
-import com.epapps.moments.repositories.IMomentsRepository;
 import com.epapps.moments.services.ICommentService;
 import com.epapps.moments.services.IUserService;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 
 @RestController
@@ -47,9 +43,22 @@ public class CommentController {
     }
 
     @PutMapping("/comments/{id}")
-    Comment likeComment(@PathVariable Long id, @RequestBody Comment comment){
-    return this.commentService.likeComment(id);
+    Comment updateComment(@PathVariable Long id, @RequestBody Comment comment){
+        User authUser = getAuthUser();
+    return this.commentService.updateComment(comment, authUser);
     }
+
+    @GetMapping("/moments/{id}/comments")
+    List<Comment> getMomentComments(@PathVariable Long id){
+        return commentService.findByMoment(id);
+    }
+
+    @PatchMapping("/comments/{id}/like")
+    Comment like(@PathVariable Long id, @RequestBody Comment comment){
+        //User auth = getAuthUser();
+        return commentService.like(id, comment);
+    }
+
 
 
 

@@ -1,12 +1,13 @@
 
+
+
+
 INSERT
 INTO
   users
-  (user_Name, user_Img)
+  (name, user_Name, user_Img, password, email)
 VALUES
-  ('eric_puig', 'https://media-exp2.licdn.com/dms/image/C4D03AQG17WUfd78sgA/profile-displayphoto-shrink_400_400/0/1587477510501?e=1661385600&v=beta&t=lxPzlDjTbmYs0vSz-B7ef95gRfs-T5Dxj_RTLrcSO8Y');
-
-
+  ('Eric', 'eric_puig', 'https://media-exp2.licdn.com/dms/image/C4D03AQG17WUfd78sgA/profile-displayphoto-shrink_400_400/0/1587477510501?e=1661385600&v=beta&t=lxPzlDjTbmYs0vSz-B7ef95gRfs-T5Dxj_RTLrcSO8Y', 'password', 'firstuser@gmail.com');
 
   INSERT
 INTO
@@ -58,3 +59,4 @@ INTO
   (comment, is_Liked, creator_id, moment_id)
 VALUES
   ('Soc un comment que em podran posar like.', FALSE, 1, 1);
+

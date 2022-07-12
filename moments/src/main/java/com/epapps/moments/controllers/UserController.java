@@ -1,0 +1,34 @@
+package com.epapps.moments.controllers;
+
+import com.epapps.moments.models.User;
+import com.epapps.moments.services.IUserService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@CrossOrigin(origins="*")
+public class UserController {
+
+    IUserService userService;
+
+    public UserController(IUserService userService) {
+        this.userService = userService;
+    }
+
+
+    @GetMapping("/users")
+    List<User> getAll(){
+        return userService.findAll();
+    }
+
+    @GetMapping("/users/{id}")
+    User getUserById(@PathVariable Long id){
+        return userService.findById(id);
+    }
+
+    @PostMapping("/users")
+    User createUser(@RequestBody User user){
+        return userService.createUser(user);
+    }
+}

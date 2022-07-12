@@ -10,6 +10,8 @@ import com.epapps.moments.repositories.IMomentsRepository;
 import com.epapps.moments.repositories.IUserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -48,13 +50,34 @@ public class CommentService implements ICommentService{
     }
 
     @Override
-    public Comment likeComment( Long id ){
-        Comment comment = this.commentRepository.findById(id).get();
-
-        comment.setLiked(!comment.isLiked());
-        final Comment likedComment = this.commentRepository.save(comment);
-        return likedComment;
+    public Comment updateComment(Comment comment, User auth ){
+        Comment commentToUpdate = this.commentRepository.findById(comment.getId()).get();
+        commentToUpdate.setComment(comment.getComment());
+        commentToUpdate.setCreator(auth);
+        final Comment updatedComment = this.commentRepository.save(commentToUpdate);
+        return updatedComment;
     }
+
+    @Override
+    public List<Comment> findByMoment(Long id) {
+
+
+        List<Comment> momentComments = new ArrayList<>();
+
+        commentRepository.getCommentsByMomentIdReverse(id).forEach(momentComments::add);
+
+        return momentComments;
+    }
+
+    @Override
+    public Comment like(Long id, Comment comment) {
+        Comment commentToLike = commentRepository.findById(comment.getId()).get();
+        //if(moment.getCreator().getId() == auth.getId()) return null;
+        comment.setLiked(!commentToLike.isLiked());
+        Comment commentLiked = commentRepository.save(comment);
+        return commentLiked;
+    }
+
 
 
 }
