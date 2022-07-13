@@ -33,16 +33,17 @@ public class Moment {
     private boolean isLiked = false;
 
 
-
-
-
     @OneToMany(mappedBy = "moment")
     private List<Comment> commentsList = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     public Moment(String title, Long id, String imgUrl, String ubication, String description, boolean isLiked) {
 
     }
-
 
     @JsonSerialize
     public int commentsCount(){
@@ -53,13 +54,9 @@ public class Moment {
         this.commentsList.add(comment);
     }
 
-
     @ManyToOne
     @JoinColumn(name="creator_id")
     private User creator;
-
-
-
 
 }
 

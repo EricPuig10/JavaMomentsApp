@@ -1,20 +1,19 @@
-
-
+INSERT
+INTO
+  users
+  (name, user_Name, user_Img, password, email, followers, following, description, date_Of_Birth, ubication)
+VALUES
+  ('Eric Puigvendrello', 'eric_puig', 'https://media-exp2.licdn.com/dms/image/C4D03AQG17WUfd78sgA/profile-displayphoto-shrink_400_400/0/1587477510501?e=1661385600&v=beta&t=lxPzlDjTbmYs0vSz-B7ef95gRfs-T5Dxj_RTLrcSO8Y', 'password', 'firstuser@gmail.com', '930', '400', 'This is my profile!', '21/09/2000', 'Tona, BCN');
 
 
 INSERT
 INTO
   users
-  (name, user_Name, user_Img, password, email)
+  (name, user_Name, user_Img, password, email, followers, following, description, date_Of_Birth, ubication)
 VALUES
-  ('Eric', 'eric_puig', 'https://media-exp2.licdn.com/dms/image/C4D03AQG17WUfd78sgA/profile-displayphoto-shrink_400_400/0/1587477510501?e=1661385600&v=beta&t=lxPzlDjTbmYs0vSz-B7ef95gRfs-T5Dxj_RTLrcSO8Y', 'password', 'firstuser@gmail.com');
+  ('Monalisa', 'monalisa_official', 'https://ichef.bbci.co.uk/news/640/cpsprodpb/17C16/production/_117320379_giocondacerca.jpg', 'password', 'monalisa@gmail.com', '10K', '1', 'Hello', '1aC','Louvre');
 
-INSERT
-INTO
-  users
-  (name, user_Name, user_Img, password, email)
-VALUES
-  ('Monalisa', 'monalisa_official', 'https://ichef.bbci.co.uk/news/640/cpsprodpb/17C16/production/_117320379_giocondacerca.jpg', 'password', 'monalisa@gmail.com');
+
 
   INSERT
 INTO

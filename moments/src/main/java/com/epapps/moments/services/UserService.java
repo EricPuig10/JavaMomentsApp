@@ -1,10 +1,12 @@
 package com.epapps.moments.services;
 
+import com.epapps.moments.models.Comment;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
 import com.epapps.moments.repositories.IUserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,5 +45,16 @@ public class UserService implements IUserService{
         newUser.setPassword(user.getPassword());
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public List<Moment> findByUserMoments(Long id) {
+
+
+        List<Moment> userMoments = new ArrayList<>();
+
+        userRepository.getMomentsByUserId(id).forEach(userMoments::add);
+
+        return userMoments;
     }
 }

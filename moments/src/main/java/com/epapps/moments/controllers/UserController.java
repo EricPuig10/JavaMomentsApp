@@ -1,5 +1,7 @@
 package com.epapps.moments.controllers;
 
+import com.epapps.moments.models.Comment;
+import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
 import com.epapps.moments.services.IUserService;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +32,10 @@ public class UserController {
     @PostMapping("/users")
     User createUser(@RequestBody User user){
         return userService.createUser(user);
+    }
+
+    @GetMapping("/moments/{id}/users")
+    List<Moment> getMomentsByUser(@PathVariable Long id){
+        return userService.findByUserMoments(id);
     }
 }
