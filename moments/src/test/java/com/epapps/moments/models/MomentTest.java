@@ -4,12 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MomentTest {
 
     @Test
-    void commentCount(){
+    void commentCount() {
         Moment moment = new Moment();
         Comment comment = new Comment();
 
@@ -18,5 +17,59 @@ class MomentTest {
         int sut = moment.commentsCount();
 
         assertThat(sut, equalTo(1));
+    }
+
+    @Test
+    void shouldHaveLikesCounter() {
+        var moment = new Moment();
+        var user = new User();
+        moment.setId(1L);
+        user.setId(1L);
+        var like = new Fav(user, moment);
+
+        moment.addFavs(like);
+
+        int sut = moment.likesCount();
+
+        assertThat(sut, equalTo(1));
+    }
+
+    @Test
+    void momentShouldntLetAddLikeIfMomentDoesNotMatch() {
+        var moment = new Moment();
+        var moment2 = new Moment();
+        var user = new User();
+        moment.setId(1L);
+        moment2.setId(2L);
+        user.setId(1L);
+        var like = new Fav(user, moment);
+        moment2.addFavs(like);
+        var sut = moment2.likesCount();
+
+        assertThat(sut, equalTo(0));
+    }
+
+    @Test
+    void momentShouldKnowIfIsLikedByAUser() {
+        var moment = new Moment();
+        var latinlover = new User();
+        var like = new Fav(latinlover, moment);
+        moment.addFavs(like);
+        var sut = moment.isFaved(latinlover);
+
+        assertThat(sut, equalTo(true));
+    }
+
+    @Test
+    void loverShouldNotBeContainedInFavList() {
+        var moment = new Moment();
+        var latinlover = new User();
+
+        var noLatinlover = new User();
+        var like = new Fav(latinlover, moment);
+        moment.addFavs(like);
+        var sut = moment.isFaved(noLatinlover);
+
+        assertThat(sut, equalTo(false));
     }
 }

@@ -2,13 +2,11 @@ package com.epapps.moments.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +37,9 @@ public class Moment {
     @JsonIgnore
     private List<Comment> commentsList = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name="creator_id")
+    private User creator;
 
 
     public Moment(String title, Long id, String imgUrl, String ubication, String description, boolean isLiked) {
@@ -54,9 +55,24 @@ public class Moment {
         this.commentsList.add(comment);
     }
 
-    @ManyToOne
-    @JoinColumn(name="creator_id")
-    private User creator;
+    @OneToMany(mappedBy = "moment")
+    private List<Fav> favs =  new ArrayList<>();
 
+    public void addFavs(Fav fav){
+        if(!fav.getMoment().equals(this)) return;
+        favs.add(fav);
+    }
+    public int likesCount() {
+        return this.favs.size();
+    }
+
+    public boolean isFaved(User user) {
+
+        var favLover = favs.stream().filter(Fav -> Fav.getLover() == (user)).findFirst();
+        if(favLover.isEmpty()) return false;
+
+        return true;
+    }
 }
+
 
