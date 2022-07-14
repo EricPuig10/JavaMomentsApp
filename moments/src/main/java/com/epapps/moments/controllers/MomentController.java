@@ -72,6 +72,11 @@ public class MomentController {
         return momentService.search(search);
     }
 
+    @GetMapping("/moments/{id}/users")
+    List<Moment> getMomentsByUser(@PathVariable Long id){
+        return momentService.findByUserMoments(id);
+    }
+
 
 
 

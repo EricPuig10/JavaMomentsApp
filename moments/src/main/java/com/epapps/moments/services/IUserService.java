@@ -16,5 +16,5 @@ public interface IUserService {
 
     User createUser(User user);
 
-    List<Moment> findByUserMoments(Long id);
+
 }

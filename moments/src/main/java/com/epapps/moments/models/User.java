@@ -1,6 +1,7 @@
 package com.epapps.moments.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
@@ -27,7 +28,8 @@ public class User {
     private String dateOfBirth;
     private String ubication;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "creator")
+    @JsonIgnore
     private List<Moment> momentsList = new ArrayList<>();
 
     @JsonSerialize

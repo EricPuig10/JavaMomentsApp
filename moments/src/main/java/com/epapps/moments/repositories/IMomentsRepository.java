@@ -18,5 +18,8 @@ public interface IMomentsRepository extends JpaRepository<Moment, Long> {
     List<Moment> findByTitleContainsIgnoreCaseOrDescriptionContainsIgnoreCase(String title, String description);
 
 
+    @Query("select m from Moment m where m.creator.id = :id")
+    List<Moment> getMomentsByUserId(@Param("id") Long id);
+
 }
 

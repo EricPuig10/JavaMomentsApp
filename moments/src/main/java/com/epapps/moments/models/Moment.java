@@ -1,5 +1,6 @@
 package com.epapps.moments.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -34,11 +35,8 @@ public class Moment {
 
 
     @OneToMany(mappedBy = "moment")
+    @JsonIgnore
     private List<Comment> commentsList = new ArrayList<>();
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
 
     public Moment(String title, Long id, String imgUrl, String ubication, String description, boolean isLiked) {

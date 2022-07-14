@@ -47,14 +47,5 @@ public class UserService implements IUserService{
         return userRepository.save(user);
     }
 
-    @Override
-    public List<Moment> findByUserMoments(Long id) {
 
-
-        List<Moment> userMoments = new ArrayList<>();
-
-        userRepository.getMomentsByUserId(id).forEach(userMoments::add);
-
-        return userMoments;
-    }
 }

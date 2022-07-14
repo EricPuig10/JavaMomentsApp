@@ -6,6 +6,7 @@ import com.epapps.moments.models.User;
 import com.epapps.moments.repositories.IMomentsRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +79,17 @@ public class MomentService implements IMomentService {
         moment.setLiked(!momentToLike.isLiked());
         Moment momentLiked = momentsRepository.save(moment);
         return momentLiked;
+    }
+
+    @Override
+    public List<Moment> findByUserMoments(Long id) {
+
+
+        List<Moment> userMoments = new ArrayList<>();
+
+        momentsRepository.getMomentsByUserId(id).forEach(userMoments::add);
+
+        return userMoments;
     }
 
 

@@ -22,4 +22,6 @@ public interface IMomentService {
     List<Moment> search(String search);
 
     Moment like(Long id, Moment moment);
+
+    List<Moment> findByUserMoments(Long id);
 }

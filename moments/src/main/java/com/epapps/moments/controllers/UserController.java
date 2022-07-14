@@ -34,8 +34,5 @@ public class UserController {
         return userService.createUser(user);
     }
 
-    @GetMapping("/moments/{id}/users")
-    List<Moment> getMomentsByUser(@PathVariable Long id){
-        return userService.findByUserMoments(id);
-    }
+
 }
