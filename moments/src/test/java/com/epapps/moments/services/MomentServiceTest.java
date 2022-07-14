@@ -1,10 +1,9 @@
 package com.epapps.moments.services;
 
-import com.epapps.moments.dtos.MomentRequestDto;
+import com.epapps.moments.dtos.moment.MomentRequestDto;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
 import com.epapps.moments.repositories.IMomentsRepository;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;

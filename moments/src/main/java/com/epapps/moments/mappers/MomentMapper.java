@@ -1,7 +1,7 @@
 package com.epapps.moments.mappers;
 
 
-import com.epapps.moments.dtos.MomentRequestDto;
+import com.epapps.moments.dtos.moment.MomentRequestDto;
 import com.epapps.moments.models.Moment;
 
 public class MomentMapper {

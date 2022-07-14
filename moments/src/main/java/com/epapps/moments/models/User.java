@@ -22,8 +22,8 @@ public class User {
     private String userImg;
     private String password;
     private String email;
-    private String followers;
-    private String following;
+    private long followers;
+    private long following;
     private String description;
     private String dateOfBirth;
     private String ubication;

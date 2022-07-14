@@ -1,4 +1,4 @@
-package com.epapps.moments.dtos;
+package com.epapps.moments.dtos.moment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,8 +1,7 @@
 package com.epapps.moments.services;
 
-import com.epapps.moments.dtos.CommentRequestDto;
+import com.epapps.moments.dtos.comment.CommentRequestDto;
 import com.epapps.moments.models.Comment;
-import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
 
 import java.util.List;

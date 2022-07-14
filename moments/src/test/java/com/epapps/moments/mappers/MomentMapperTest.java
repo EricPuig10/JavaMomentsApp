@@ -1,6 +1,6 @@
 package com.epapps.moments.mappers;
 
-import com.epapps.moments.dtos.MomentRequestDto;
+import com.epapps.moments.dtos.moment.MomentRequestDto;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

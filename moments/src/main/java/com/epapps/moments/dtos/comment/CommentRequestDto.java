@@ -1,4 +1,4 @@
-package com.epapps.moments.dtos;
+package com.epapps.moments.dtos.comment;
 
 
 import com.epapps.moments.models.Moment;

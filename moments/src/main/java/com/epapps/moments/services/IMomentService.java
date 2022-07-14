@@ -1,11 +1,10 @@
 package com.epapps.moments.services;
 
-import com.epapps.moments.dtos.MomentRequestDto;
+import com.epapps.moments.dtos.moment.MomentRequestDto;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
 
 import java.util.List;
-import java.util.Map;
 
 public interface IMomentService {
 

@@ -1,6 +1,6 @@
 package com.epapps.moments.services;
 
-import com.epapps.moments.dtos.MomentRequestDto;
+import com.epapps.moments.dtos.moment.MomentRequestDto;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
 import com.epapps.moments.repositories.IMomentsRepository;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MomentService implements IMomentService {
@@ -77,6 +76,11 @@ public class MomentService implements IMomentService {
         Moment momentToLike = momentsRepository.findById(moment.getId()).get();
         //if(moment.getCreator().getId() == auth.getId()) return null;
         moment.setLiked(!momentToLike.isLiked());
+        if(momentToLike.isLiked() == true) {
+            moment.setLikes(moment.getLikes()-1);
+        } else {
+            moment.setLikes(moment.getLikes()+1);
+        }
         Moment momentLiked = momentsRepository.save(moment);
         return momentLiked;
     }

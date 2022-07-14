@@ -33,10 +33,12 @@ public class Moment {
 
     private boolean isLiked = false;
 
+    private int likes;
 
     @OneToMany(mappedBy = "moment")
     @JsonIgnore
     private List<Comment> commentsList = new ArrayList<>();
+
 
 
     public Moment(String title, Long id, String imgUrl, String ubication, String description, boolean isLiked) {
