@@ -16,7 +16,7 @@ public interface IMomentService {
 
     Moment updateAMoment(Moment momentToEdit, User authUser);
 
-    Boolean deleteMoment(Long id, User auth);
+    Boolean deleteMoment(Long id, User authUser);
 
     List<Moment> search(String search);
 
