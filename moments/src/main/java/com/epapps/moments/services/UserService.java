@@ -1,5 +1,8 @@
 package com.epapps.moments.services;
 
+import com.epapps.moments.dtos.user.UserCreateDto;
+import com.epapps.moments.dtos.user.UserWithoutPasswordResDto;
+import com.epapps.moments.mappers.UserMapper;
 import com.epapps.moments.models.Comment;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
@@ -30,21 +33,11 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public User findById(Long id) {
-        User user = userRepository.findById(id).get();
-        return user;
-    }
+    public UserWithoutPasswordResDto createUser(UserCreateDto userCreateDto) {
 
-    @Override
-    public User createUser(User user) {
-        User newUser = new User();
-        newUser.setName(user.getName());
-        newUser.setUserName(user.getUserName());
-        newUser.setUserImg(user.getUserImg());
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword());
+        User user = new UserMapper().mapCreateReqToUser(userCreateDto);
+        return new UserMapper().mapUserToUserWithoutPasswordDto(userRepository.save(user));
 
-        return userRepository.save(user);
     }
 
 

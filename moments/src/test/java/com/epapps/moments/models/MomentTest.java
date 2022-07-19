@@ -27,9 +27,9 @@ class MomentTest {
         user.setId(1L);
         var like = new Fav(user, moment);
 
-        moment.addFavs(like);
+        moment.toggleFav(like);
 
-        int sut = moment.likesCount();
+        int sut = moment.favsCount();
 
         assertThat(sut, equalTo(1));
     }
@@ -43,8 +43,8 @@ class MomentTest {
         moment2.setId(2L);
         user.setId(1L);
         var like = new Fav(user, moment);
-        moment2.addFavs(like);
-        var sut = moment2.likesCount();
+        moment2.toggleFav(like);
+        var sut = moment2.favsCount();
 
         assertThat(sut, equalTo(0));
     }
@@ -54,7 +54,7 @@ class MomentTest {
         var moment = new Moment();
         var latinlover = new User();
         var like = new Fav(latinlover, moment);
-        moment.addFavs(like);
+        moment.toggleFav(like);
         var sut = moment.isFaved(latinlover);
 
         assertThat(sut, equalTo(true));
@@ -67,7 +67,7 @@ class MomentTest {
 
         var noLatinlover = new User();
         var like = new Fav(latinlover, moment);
-        moment.addFavs(like);
+        moment.toggleFav(like);
         var sut = moment.isFaved(noLatinlover);
 
         assertThat(sut, equalTo(false));

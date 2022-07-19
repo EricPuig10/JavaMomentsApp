@@ -1,5 +1,7 @@
 package com.epapps.moments.controllers;
 
+import com.epapps.moments.dtos.user.UserCreateDto;
+import com.epapps.moments.dtos.user.UserWithoutPasswordResDto;
 import com.epapps.moments.models.Comment;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
@@ -26,12 +28,12 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     User getUserById(@PathVariable Long id){
-        return userService.findById(id);
+        return userService.getById(id);
     }
 
     @PostMapping("/users")
-    User createUser(@RequestBody User user){
-        return userService.createUser(user);
+    UserWithoutPasswordResDto createUser(@RequestBody UserCreateDto userCreateDto){
+        return userService.createUser(userCreateDto);
     }
 
 

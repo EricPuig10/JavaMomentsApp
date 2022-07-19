@@ -1,5 +1,6 @@
 package com.epapps.moments.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,12 +8,13 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="likes")
+@Table(name="favs")
 @NoArgsConstructor
+
 public class Fav {
 
-    public Fav(User lover, Moment moment) {
-        this.lover = lover;
+    public Fav(User faver, Moment moment) {
+        this.faver = faver;
         this.moment = moment;
     }
 
@@ -22,8 +24,8 @@ public class Fav {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="lover_id")
-    private User lover;
+    @JoinColumn(name="faver_id")
+    private User faver;
 
     @ManyToOne
     @JoinColumn(name="moment_id")

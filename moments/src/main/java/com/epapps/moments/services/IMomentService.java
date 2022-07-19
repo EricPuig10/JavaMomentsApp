@@ -1,6 +1,7 @@
 package com.epapps.moments.services;
 
 import com.epapps.moments.dtos.moment.MomentRequestDto;
+import com.epapps.moments.dtos.moment.MomentResDto;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
 
@@ -14,13 +15,13 @@ public interface IMomentService {
 
     Moment findById(Long id);
 
-    Moment updateAMoment(Moment momentToEdit, User authUser);
+    MomentResDto updateAMoment(MomentRequestDto momentRequestDto, Long id, User authUser);
 
     Boolean deleteMoment(Long id, User authUser);
 
     List<Moment> search(String search);
 
-    Moment like(Long id, Moment moment);
+    //Moment like(Long id, Moment moment);
 
     List<Moment> findByUserMoments(Long id);
 }

@@ -1,6 +1,8 @@
 package com.epapps.moments.services;
 
 import com.epapps.moments.dtos.comment.CommentRequestDto;
+import com.epapps.moments.dtos.comment.CommentResDto;
+import com.epapps.moments.mappers.CommentMapper;
 import com.epapps.moments.models.Comment;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
@@ -26,8 +28,13 @@ public class CommentService implements ICommentService{
     }
 
     @Override
-    public List<Comment> getAll() {
-        return commentRepository.findAll();
+    public List<CommentResDto> getAll() {
+        List<Comment> comments = commentRepository.findAll();
+        List <CommentResDto> commentsList = new ArrayList<>();
+        comments.forEach(Comment -> {
+            commentsList.add(new CommentMapper().mapCommentToRes(Comment));
+        });
+        return commentsList;
     }
 
     @Override
@@ -37,36 +44,27 @@ public class CommentService implements ICommentService{
 
 
     @Override
-    public Comment create(CommentRequestDto commentDto, User auth) {
-        Comment comment = new Comment();
+    public CommentResDto create(CommentRequestDto commentDto) {
         Moment moment = this.momentsRepository.findById(commentDto.getMomentId()).get();
-        comment.setComment(commentDto.getComment());
-        comment.setMoment(moment);
-        comment.setCreator(auth);
-        return commentRepository.save(comment);
+        User creator = this.userRepository.findById(commentDto.getUserId()).get();
+        Comment comment = new CommentMapper().mapReqToComment(commentDto, moment, creator);
+
+        this.commentRepository.save(comment);
+        return new CommentMapper().mapCommentToRes(comment);
 
     }
 
-    @Override
-    public Comment updateComment(Comment comment, User auth ){
-        Comment commentToUpdate = this.commentRepository.findById(comment.getId()).get();
-        commentToUpdate.setComment(comment.getComment());
-        commentToUpdate.setCreator(auth);
-        final Comment updatedComment = this.commentRepository.save(commentToUpdate);
-        return updatedComment;
-    }
 
     @Override
-    public List<Comment> findByMoment(Long id) {
-
-
-        List<Comment> momentComments = new ArrayList<>();
-
-        commentRepository.getCommentsByMomentIdReverse(id).forEach(momentComments::add);
-
+    public List<CommentResDto> findByMoment(Long id) {
+        List<CommentResDto> momentComments = new ArrayList<>();
+        commentRepository.findByMomentId(id).forEach(Comment ->{
+            momentComments.add( new CommentMapper().mapCommentToRes(Comment));
+        });
         return momentComments;
     }
 
+    /*
     @Override
     public Comment like(Long id, Comment comment) {
         Comment commentToLike = commentRepository.findById(comment.getId()).get();
@@ -74,7 +72,7 @@ public class CommentService implements ICommentService{
         comment.setLiked(!commentToLike.isLiked());
         Comment commentLiked = commentRepository.save(comment);
         return commentLiked;
-    }
+    }*/
 
 
 

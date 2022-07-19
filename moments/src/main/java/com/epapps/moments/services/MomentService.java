@@ -1,6 +1,9 @@
 package com.epapps.moments.services;
 
 import com.epapps.moments.dtos.moment.MomentRequestDto;
+import com.epapps.moments.dtos.moment.MomentResDto;
+import com.epapps.moments.exceptions.NotFoundException;
+import com.epapps.moments.mappers.MomentMapper;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
 import com.epapps.moments.repositories.IMomentsRepository;
@@ -21,6 +24,7 @@ public class MomentService implements IMomentService {
     @Override
     public List<Moment> getAll() {
         return momentsRepository.findAll();
+
     }
 
     @Override
@@ -41,20 +45,19 @@ public class MomentService implements IMomentService {
     }
 
 
-    public Moment updateAMoment(Moment momentToEdit, User auth){
+    public MomentResDto updateAMoment(MomentRequestDto momentRequestDto, Long id, User auth){
 
-    Moment moment = this.momentsRepository.findById(momentToEdit.getId()).get();
+    var moment = momentsRepository.findById(id);
 
-    if(auth.getId() != moment.getCreator().getId()) {
+    if(moment.isEmpty()) throw new NotFoundException("Moment Not Found", "M-404");
+
+    if(auth.getId() != moment.get().getCreator().getId()) {
         return null;
     }
-        moment.setTitle(momentToEdit.getTitle());;
-        moment.setDescription(momentToEdit.getDescription());
-        moment.setImgUrl(momentToEdit.getImgUrl());
-        moment.setUbication(momentToEdit.getUbication());
-        moment.setCreator(auth);
-        Moment updatedMoment = this.momentsRepository.save(moment);
-        return updatedMoment;
+        Moment updatedMoment = new MomentMapper().mapRequestToMomentToEdit(momentRequestDto, moment.get());
+        momentsRepository.save(updatedMoment);
+        MomentResDto momentRes = new MomentMapper().mapToRes(updatedMoment, auth);
+        return momentRes;
     }
 
     @Override
@@ -67,10 +70,11 @@ public class MomentService implements IMomentService {
 
     @Override
     public List<Moment> search(String search) {
-        var searchCollection = this.momentsRepository.findByTitleContainsIgnoreCaseOrDescriptionContainsIgnoreCase(search, search);
+        var searchCollection = this.momentsRepository.findByDescriptionOrTitleContaining(search);
         return searchCollection;
     }
 
+    /*
     @Override
     public Moment like(Long id, Moment moment) {
         Moment momentToLike = momentsRepository.findById(moment.getId()).get();
@@ -84,6 +88,8 @@ public class MomentService implements IMomentService {
         Moment momentLiked = momentsRepository.save(moment);
         return momentLiked;
     }
+    */
+
 
     @Override
     public List<Moment> findByUserMoments(Long id) {

@@ -1,21 +1,21 @@
 package com.epapps.moments.services;
 
 import com.epapps.moments.dtos.comment.CommentRequestDto;
+import com.epapps.moments.dtos.comment.CommentResDto;
 import com.epapps.moments.models.Comment;
 import com.epapps.moments.models.User;
 
 import java.util.List;
 
 public interface ICommentService {
-    List<Comment> getAll();
+    List<CommentResDto> getAll();
 
     Comment findById(Long id);
 
-    Comment create(CommentRequestDto commentDto, User userAuth);
+    CommentResDto create(CommentRequestDto commentDto);
 
-    Comment updateComment(Comment comment, User auth);
 
-    List<Comment> findByMoment(Long id);
+    List<CommentResDto> findByMoment(Long id);
 
-    Comment like(Long id, Comment comment);
+    //Comment like(Long id, Comment comment);
 }

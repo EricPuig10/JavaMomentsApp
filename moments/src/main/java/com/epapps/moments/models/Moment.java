@@ -29,9 +29,9 @@ public class Moment {
 
     private String ubication;
 
-    private boolean isLiked = false;
+    //private boolean isLiked = false;
 
-    private int likes;
+    //private int likes;
 
     @OneToMany(mappedBy = "moment")
     @JsonIgnore
@@ -56,21 +56,28 @@ public class Moment {
     }
 
     @OneToMany(mappedBy = "moment")
+    @JsonIgnore
     private List<Fav> favs =  new ArrayList<>();
-
-    public void addFavs(Fav fav){
+    public void toggleFav(Fav fav){
         if(!fav.getMoment().equals(this)) return;
+        var found = favs.stream().filter(Fav -> Fav.getFaver() == fav.getFaver()).findAny();
+        if (found.isPresent()) {
+            favs.remove(found);
+            return;
+        }
         favs.add(fav);
     }
-    public int likesCount() {
+
+    public int favsCount() {
         return this.favs.size();
     }
 
     public boolean isFaved(User user) {
 
-        var favLover = favs.stream().filter(Fav -> Fav.getLover() == (user)).findFirst();
-        if(favLover.isEmpty()) return false;
-
+        var faver = favs.stream().filter(Fav -> Fav.getFaver() == user).findAny();
+        if(faver.isEmpty()) {
+            return false;
+        }
         return true;
     }
 }

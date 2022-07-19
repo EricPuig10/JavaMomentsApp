@@ -1,6 +1,9 @@
 package com.epapps.moments.services;
 
 import com.epapps.moments.dtos.moment.MomentRequestDto;
+import com.epapps.moments.dtos.moment.MomentResDto;
+import com.epapps.moments.exceptions.NotFoundException;
+import com.epapps.moments.mappers.MomentMapper;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
 import com.epapps.moments.repositories.IMomentsRepository;
@@ -14,6 +17,8 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
@@ -22,6 +27,19 @@ class MomentServiceTest {
     @Mock
 
     IMomentsRepository momentsRepository;
+
+    public Moment createMoment(){
+        var user = new User();
+        user.setId(1L);
+        var moment = new Moment();
+        moment.setId(1L);
+        moment.setTitle("tit1");
+        moment.setDescription("des1");
+        moment.setImgUrl("img1");
+        moment.setUbication("ubi1");
+        moment.setCreator(user);
+        return moment;
+    }
 
     @Test
     void getAllReturnsListOfProducts() {
@@ -41,7 +59,7 @@ class MomentServiceTest {
     void createSaveAMoment() {
         MomentService momentService = new MomentService(momentsRepository);
 
-        var momentRequestDto = new MomentRequestDto("hola", "hola.jpg", "hola", "main");
+        var momentRequestDto = new MomentRequestDto("hola", "hola.jpg", "hola", "main", 1L);
         User creator = new User();
         creator.setId(1L);
 
@@ -52,7 +70,7 @@ class MomentServiceTest {
         moment.setTitle("hola");
         moment.setImgUrl("hola.jpg");
         moment.setId(1L);
-        moment.setLiked(true);
+
 
         Mockito.when(momentsRepository.save(any(Moment.class))).thenReturn(moment);
         var sut = momentService.create(momentRequestDto, creator);
@@ -141,81 +159,73 @@ class MomentServiceTest {
 
 
 
+
     @Test
-    void updateAMomentReturnsAMomentUpdated() {
+    void updateShouldUpdateMomentFromReq() {
         var momentService = new MomentService(momentsRepository);
-
-        User creator = new User();
-        creator.setId(1L);
-
-
-
-        Moment momentToEdit = new Moment("hola", 1L, "hola.jpg", "hola", "hola", true );
+        var req = new MomentRequestDto("tit1", "img1", "des1", "ubi1", 1L);
         Long id = 1L;
-        momentToEdit.setCreator(creator);
 
+        var user = new User();
+        user.setId(1L);
 
-        Mockito.when(momentsRepository.findById(momentToEdit.getId())).thenReturn(Optional.of(momentToEdit));
+        Moment moment = this.createMoment();
 
-        Mockito.when(momentsRepository.save(any(Moment.class))).thenReturn(momentToEdit);
+        Mockito.when(momentsRepository.findById(any(Long.class))).thenReturn(Optional.of(moment));
+        Mockito.when(momentsRepository.save(any(Moment.class))).thenReturn(moment);
 
-
-        var sut = momentService.updateAMoment(momentToEdit, creator);
-
-        assertThat (sut.getTitle(), equalTo(momentToEdit.getTitle()));
-
+        var sut = momentService.updateAMoment(req, id, user);
+        assertThat(sut.getDescription(), equalTo(req.getDescription()));
+        assertThat(sut.getTitle(), equalTo(req.getTitle()));
+        assertThat(sut.getImgUrl(), equalTo(req.getImgUrl()));
+        assertThat(sut.getUbication(), equalTo(req.getUbication()));
+        assertThat(sut.getCreator().getId(), equalTo(req.getUserId()));
     }
+
 
 
     @Test
     void updateAMomentReturnsNullIfUserIsntAuth() {
         var momentService = new MomentService(momentsRepository);
+        var req = new MomentRequestDto("tit1", "img1", "des1", "ubi1", 1L);
+        Long id = 1L;
 
-        User creator = new User();
-        creator.setId(1L);
+        var user = new User();
+        user.setId(1L);
+        var userNonAuth = new User();
+        user.setId(3L);
 
-        User notcreator = new User();
-        notcreator.setId(2L);
+        Moment moment = this.createMoment();
 
-        Moment momentToEdit = new Moment();
-        momentToEdit.setId(1L);
-        momentToEdit.setDescription("hello");
-        momentToEdit.setTitle("title");
-        momentToEdit.setCreator(creator);
+        Mockito.when(momentsRepository.findById(any(Long.class))).thenReturn(Optional.of(moment));
+        Mockito.when(momentsRepository.save(any(Moment.class))).thenReturn(moment);
 
-        Mockito.when(momentsRepository.findById(any(Long.class))).thenReturn(Optional.of(momentToEdit));
-
-        Mockito.when(momentsRepository.save(any(Moment.class))).thenReturn(momentToEdit);
-
-
-        var sut = momentService.updateAMoment(momentToEdit, notcreator);
+        var sut = momentService.updateAMoment(req, id, userNonAuth);
 
         assertThat(sut, equalTo(null));
 
     }
 
-    /*
+
+
     @Test
-    void updateAMomentReturnsNullIfDontExistMoment() {
+    void updateAMomentReturnsNotFoundExceotionIfDontExistMoment() {
+
         var momentService = new MomentService(momentsRepository);
+        var req = new MomentRequestDto("img", "desc", "loc", "ubi", 1L);
+        var user = new User();
+        user.setId(1L);
+        Exception ex = assertThrows(NotFoundException.class, ()->{
+            momentService.updateAMoment(req, 1L, user);
+        });
+        var resmsg = "Moment Not Found";
+        var sut = ex.getMessage();
+        assertTrue(sut.equals(resmsg));
 
-        User creator = new User();
-        creator.setId(1L);
 
-        Moment momentToEdit = new Moment();
-
-        Mockito.when(momentsRepository.findById(any(Long.class))).thenReturn(Optional.empty());
-
-        Mockito.when(momentsRepository.save(any(Moment.class))).thenReturn(null);
+    }
 
 
-        var sut = momentService.updateAMoment(momentToEdit, creator);
-
-        assertThat(sut.getTitle(), equalTo(null));
-
-    } */
-
-    //si no existeix moment, null
 
 
 
@@ -239,7 +249,7 @@ class MomentServiceTest {
 
         var found = List.of(moment2);
 
-        Mockito.when(momentsRepository.findByTitleContainsIgnoreCaseOrDescriptionContainsIgnoreCase(any(String.class), any(String.class))).thenReturn(searched);
+        Mockito.when(momentsRepository.findByDescriptionOrTitleContaining(any(String.class))).thenReturn(searched);
 
         var sut = momentService.search("title");
 
@@ -247,4 +257,26 @@ class MomentServiceTest {
 
 
     }
-}
+
+
+    @Test
+    void getUserMomentsShouldReturnMomentList() {
+        var momentService = new MomentService(momentsRepository);
+        Moment moment = this.createMoment();
+        var user = new User();
+        user.setId(1L);
+        Moment res = this.createMoment();
+        var filtered = List.of(moment);
+        var foundMoments = List.of(res);
+        Mockito.when(momentsRepository.getMomentsByUserId(any(Long.class))).thenReturn(filtered);
+        var sut = momentService.findByUserMoments(1L);
+        assertThat(sut, equalTo(foundMoments));
+
+    }
+
+
+
+
+
+
+    }

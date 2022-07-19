@@ -1,5 +1,7 @@
 package com.epapps.moments.services;
 
+import com.epapps.moments.dtos.user.UserCreateDto;
+import com.epapps.moments.dtos.user.UserWithoutPasswordResDto;
 import com.epapps.moments.models.Comment;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
@@ -12,9 +14,7 @@ public interface IUserService {
 
     List<User> findAll();
 
-    User findById(Long id);
-
-    User createUser(User user);
+    UserWithoutPasswordResDto createUser(UserCreateDto userCreateDto);
 
 
 }
