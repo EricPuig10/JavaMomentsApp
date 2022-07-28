@@ -30,4 +30,8 @@ public class Fav {
     @ManyToOne
     @JoinColumn(name="moment_id")
     private Moment moment;
+
+    @ManyToOne
+    @JoinColumn(name="comment_id")
+    private Comment comment;
 }

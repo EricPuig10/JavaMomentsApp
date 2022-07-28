@@ -20,7 +20,17 @@ public class CommentMapper {
         resDto.setId(comment.getId());
         resDto.setMomentId(comment.getMoment().getId());
         resDto.setComment(comment.getComment());
-        resDto.setLiked(comment.isLiked());
+        //resDto.setLiked(comment.isFaved(auth));
+        resDto.setCreator( new UserMapper().mapUserToResDtoMoment(comment.getCreator()));
+        return resDto;
+    }
+
+    public CommentResDto mapCommentToResWithAuth(Comment comment, User auth) {
+        CommentResDto resDto = new CommentResDto();
+        resDto.setId(comment.getId());
+        resDto.setMomentId(comment.getMoment().getId());
+        resDto.setComment(comment.getComment());
+        resDto.setFaved(comment.isFaved(auth));
         resDto.setCreator( new UserMapper().mapUserToResDtoMoment(comment.getCreator()));
         return resDto;
     }

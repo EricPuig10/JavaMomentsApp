@@ -61,14 +61,13 @@ class MomentTest {
     }
 
     @Test
-    void loverShouldNotBeContainedInFavList() {
+    void loverShouldBeContainedInFavList() {
         var moment = new Moment();
-        var latinlover = new User();
-
-        var noLatinlover = new User();
-        var like = new Fav(latinlover, moment);
-        moment.toggleFav(like);
-        var sut = moment.isFaved(noLatinlover);
+        var lover = new User();
+        var nolover = new User();
+        var fav = new Fav(lover, moment);
+        moment.toggleFav(fav);
+        var sut = moment.isFaved(nolover);
 
         assertThat(sut, equalTo(false));
     }

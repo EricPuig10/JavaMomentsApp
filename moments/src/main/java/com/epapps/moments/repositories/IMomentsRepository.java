@@ -21,5 +21,7 @@ public interface IMomentsRepository extends JpaRepository<Moment, Long> {
     @Query("select m from Moment m where m.creator.id = :id")
     List<Moment> getMomentsByUserId(@Param("id") Long id);
 
+    @Query("select m from Moment m inner join m.favs favs where favs.faver.id = :id")
+    List<Moment> findFavs(@Param("id") Long id);
 }
 

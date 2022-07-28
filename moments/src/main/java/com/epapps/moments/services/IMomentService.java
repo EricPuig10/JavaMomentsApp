@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IMomentService {
 
-    List<Moment> getAll();
+    List<MomentResDto> getAll(User auth);
 
     Moment create(MomentRequestDto momentDto, User authUser);
 
@@ -24,4 +24,7 @@ public interface IMomentService {
     //Moment like(Long id, Moment moment);
 
     List<Moment> findByUserMoments(Long id);
+
+    List<MomentResDto> getUserFavedMoments(User auth);
 }
+

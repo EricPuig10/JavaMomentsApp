@@ -1,6 +1,9 @@
 package com.epapps.moments.mappers;
 
 import com.epapps.moments.dtos.moment.MomentRequestDto;
+import com.epapps.moments.models.Fav;
+import com.epapps.moments.models.Moment;
+import com.epapps.moments.models.User;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,4 +19,6 @@ class MomentMapperTest {
         assertEquals(sut.getTitle(), momentRequest.getTitle());
 
     }
+
+
 }

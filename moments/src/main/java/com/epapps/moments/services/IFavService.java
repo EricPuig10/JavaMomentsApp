@@ -1,5 +1,6 @@
 package com.epapps.moments.services;
 
+import com.epapps.moments.dtos.fav.FavCommentReqDto;
 import com.epapps.moments.dtos.fav.FavReqDto;
 import com.epapps.moments.models.Fav;
 import com.epapps.moments.models.User;
@@ -11,5 +12,7 @@ public interface IFavService {
     List<Fav> getMomentFavs(Long id);
 
 
-    String toggleFav(FavReqDto fav, User auth);
+    boolean toggleFav(FavReqDto fav, User auth);
+
+    boolean toggleFavComment(FavCommentReqDto fav, User auth);
 }

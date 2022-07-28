@@ -86,7 +86,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void findByMomentShouldReturnAListOfCommentResDto(){
+    void findByMomentShouldReturnAListOfComments(){
 
         var commentService = new CommentService(commentRepository, momentsRepository, userRepository);
         Moment moment = this.createMoment();

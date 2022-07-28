@@ -9,7 +9,7 @@ import lombok.Data;
 public class CommentResDto {
     private Long id;
     private String comment;
-    private boolean isLiked;
+    private boolean isFaved;
     private Long momentId;
     private UserResDtoMoment creator;
 }

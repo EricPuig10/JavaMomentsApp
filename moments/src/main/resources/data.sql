@@ -62,8 +62,16 @@ VALUES
 INSERT
 INTO
   comments
-  (comment, is_Liked, creator_id, moment_id)
+  (comment, creator_id, moment_id)
 VALUES
-  ('Soc un comment que em podran posar like.', FALSE, 1, 1);
+  ('Soc un comment que em podran posar like.', 1, 1);
 
 
+
+
+INSERT
+INTO
+  comments
+  (comment, creator_id, moment_id)
+VALUES
+  ('Soy la mejor', 2, 2);

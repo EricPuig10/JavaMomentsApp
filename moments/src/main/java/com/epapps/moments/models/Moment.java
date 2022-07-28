@@ -19,6 +19,7 @@ public class Moment {
     private String title;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     @Column(name="imgUrl")
     private String imgUrl;
@@ -33,18 +34,9 @@ public class Moment {
 
     //private int likes;
 
-    @OneToMany(mappedBy = "moment")
+    @OneToMany(mappedBy = "moment", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Comment> commentsList = new ArrayList<>();
-
-    @ManyToOne
-    @JoinColumn(name="creator_id")
-    private User creator;
-
-
-    public Moment(String title, Long id, String imgUrl, String ubication, String description, boolean isLiked) {
-
-    }
 
     @JsonSerialize
     public int commentsCount(){
@@ -55,6 +47,17 @@ public class Moment {
         this.commentsList.add(comment);
     }
 
+    @ManyToOne
+    @JoinColumn(name="creator_id")
+    private User creator;
+
+
+    public Moment(String title, Long id, String imgUrl, String ubication, String description, boolean isLiked) {
+
+    }
+
+
+
     @OneToMany(mappedBy = "moment")
     @JsonIgnore
     private List<Fav> favs =  new ArrayList<>();
@@ -62,19 +65,21 @@ public class Moment {
         if(!fav.getMoment().equals(this)) return;
         var found = favs.stream().filter(Fav -> Fav.getFaver() == fav.getFaver()).findAny();
         if (found.isPresent()) {
-            favs.remove(found);
+            favs.remove(found.get());
             return;
         }
         favs.add(fav);
     }
 
+    @JsonSerialize
     public int favsCount() {
         return this.favs.size();
     }
 
+
     public boolean isFaved(User user) {
 
-        var faver = favs.stream().filter(Fav -> Fav.getFaver() == user).findAny();
+        var faver = favs.stream().filter(Fav -> Fav.getFaver()== user).findAny();
         if(faver.isEmpty()) {
             return false;
         }

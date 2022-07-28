@@ -22,8 +22,14 @@ public class MomentService implements IMomentService {
     }
 
     @Override
-    public List<Moment> getAll() {
-        return momentsRepository.findAll();
+    public List<MomentResDto> getAll(User auth) {
+        List<Moment> moments = momentsRepository.findAll();
+        List <MomentResDto> resMoments = new ArrayList<>();
+        moments.forEach(Moment -> {
+            MomentResDto resMoment = new MomentMapper().mapToRes(Moment, auth);
+            resMoments.add(resMoment);
+        });
+        return resMoments;
 
     }
 
@@ -100,6 +106,17 @@ public class MomentService implements IMomentService {
         momentsRepository.getMomentsByUserId(id).forEach(userMoments::add);
 
         return userMoments;
+    }
+
+
+    @Override
+    public List<MomentResDto> getUserFavedMoments(User auth) {
+        List<Moment> favMoments = momentsRepository.findFavs(auth.getId());
+        List<MomentResDto> favMomentsRes = new ArrayList<>();
+        favMoments.forEach(Moment -> {
+            favMomentsRes.add(new MomentMapper().mapToRes(Moment, auth));
+        });
+        return favMomentsRes;
     }
 
 

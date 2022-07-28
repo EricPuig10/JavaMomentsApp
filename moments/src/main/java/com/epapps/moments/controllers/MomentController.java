@@ -7,8 +7,6 @@ import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
 import com.epapps.moments.services.IMomentService;
 import com.epapps.moments.services.IUserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +28,9 @@ public class MomentController {
     }
 
     @GetMapping("/moments")
-    List<Moment> getAll(){
-        return momentService.getAll();
+    List<MomentResDto> getAll(){
+        User auth = this.getAuthUser(1L);
+        return momentService.getAll(auth);
     }
 
     @GetMapping ("/moments/{id}")
@@ -80,15 +79,11 @@ public class MomentController {
         return momentService.findByUserMoments(id);
     }
 
-    /*
     @GetMapping("/fav-moments")
-    List<Moment> getFavMomentsByUser(@PathVariable Long id) {
-        momentService.findByUserMoments(id);
-
-        var favMoments =
-
+    List <MomentResDto> getUserFavMoments(){
+        User auth = this.getAuthUser(1L);
+        return momentService.getUserFavedMoments(auth);
     }
-    */
 
 
 

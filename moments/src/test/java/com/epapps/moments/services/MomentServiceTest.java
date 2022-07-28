@@ -44,12 +44,13 @@ class MomentServiceTest {
     @Test
     void getAllReturnsListOfProducts() {
         var momentService = new MomentService(momentsRepository);
-
+        var user = new User();
+        user.setId(1L);
         var momentList = List.of(new Moment(), new Moment());
-
+        momentList.forEach(Moment -> Moment.setCreator(user));
         Mockito.when(momentsRepository.findAll()).thenReturn(momentList);
 
-        var sut = momentService.getAll();
+        var sut = momentService.getAll(user);
 
         assertThat (sut.size(), equalTo(2));
     }
