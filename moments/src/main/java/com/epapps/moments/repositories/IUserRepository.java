@@ -2,7 +2,7 @@ package com.epapps.moments.repositories;
 
 import com.epapps.moments.models.Comment;
 import com.epapps.moments.models.Moment;
-import com.epapps.moments.models.User;
+import com.epapps.moments.models2.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

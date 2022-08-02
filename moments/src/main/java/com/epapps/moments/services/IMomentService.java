@@ -3,7 +3,7 @@ package com.epapps.moments.services;
 import com.epapps.moments.dtos.moment.MomentRequestDto;
 import com.epapps.moments.dtos.moment.MomentResDto;
 import com.epapps.moments.models.Moment;
-import com.epapps.moments.models.User;
+import com.epapps.moments.models2.User;
 
 import java.util.List;
 

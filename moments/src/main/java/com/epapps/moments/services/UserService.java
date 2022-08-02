@@ -5,7 +5,7 @@ import com.epapps.moments.dtos.user.UserWithoutPasswordResDto;
 import com.epapps.moments.mappers.UserMapper;
 import com.epapps.moments.models.Comment;
 import com.epapps.moments.models.Moment;
-import com.epapps.moments.models.User;
+import com.epapps.moments.models2.User;
 import com.epapps.moments.repositories.IUserRepository;
 import org.springframework.stereotype.Service;
 

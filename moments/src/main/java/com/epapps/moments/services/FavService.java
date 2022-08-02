@@ -5,7 +5,7 @@ import com.epapps.moments.dtos.fav.FavReqDto;
 import com.epapps.moments.exceptions.NotFoundException;
 import com.epapps.moments.mappers.FavMapper;
 import com.epapps.moments.models.Fav;
-import com.epapps.moments.models.User;
+import com.epapps.moments.models2.User;
 import com.epapps.moments.repositories.ICommentRepository;
 import com.epapps.moments.repositories.IFavRepository;
 import com.epapps.moments.repositories.IMomentsRepository;

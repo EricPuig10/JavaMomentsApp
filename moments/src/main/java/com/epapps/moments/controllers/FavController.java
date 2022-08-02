@@ -4,7 +4,7 @@ package com.epapps.moments.controllers;
 import com.epapps.moments.dtos.fav.FavCommentReqDto;
 import com.epapps.moments.dtos.fav.FavReqDto;
 import com.epapps.moments.models.Fav;
-import com.epapps.moments.models.User;
+import com.epapps.moments.models2.User;
 import com.epapps.moments.services.IFavService;
 import com.epapps.moments.services.IUserService;
 import org.springframework.http.HttpStatus;

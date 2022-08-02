@@ -1,3 +1,5 @@
+/*
+
 package com.epapps.moments.models;
 
 
@@ -19,7 +21,7 @@ public class User {
     private Long id;
     private String name;
     private String username;
-    private String userImg;
+    private String img;
     private String password;
     private String email;
     private long followers;
@@ -42,3 +44,4 @@ public class User {
     }
 
 }
+*/

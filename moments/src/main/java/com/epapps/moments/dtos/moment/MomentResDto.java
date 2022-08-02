@@ -1,7 +1,7 @@
 package com.epapps.moments.dtos.moment;
 
 import com.epapps.moments.dtos.user.UserResDtoMoment;
-import com.epapps.moments.models.User;
+import com.epapps.moments.models2.User;
 import lombok.Data;
 
 @Data

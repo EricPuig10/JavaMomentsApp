@@ -1,5 +1,6 @@
 package com.epapps.moments.models;
 
+import com.epapps.moments.models2.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

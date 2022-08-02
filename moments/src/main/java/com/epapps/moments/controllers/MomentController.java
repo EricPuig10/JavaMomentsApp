@@ -1,14 +1,16 @@
 package com.epapps.moments.controllers;
 
+import com.epapps.moments.auth.facade.IAuthenticationFacade;
 import com.epapps.moments.dtos.moment.MomentRequestDto;
 import com.epapps.moments.dtos.moment.MomentResDto;
 import com.epapps.moments.dtos.user.UserFindRequestDto;
 import com.epapps.moments.models.Moment;
-import com.epapps.moments.models.User;
+import com.epapps.moments.models2.User;
 import com.epapps.moments.services.IMomentService;
 import com.epapps.moments.services.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,15 +22,19 @@ public class MomentController {
     private IMomentService momentService;
     private IUserService userService;
 
-    public MomentController(IMomentService momentService, IUserService userService) {
+    private IAuthenticationFacade authenticationFacade;
+
+    public MomentController(IMomentService momentService, IUserService userService, IAuthenticationFacade authenticationFacade) {
         this.momentService = momentService;
         this.userService = userService;
+        this.authenticationFacade = authenticationFacade;
     }
 
     private User getAuthUser(Long id) {
         return userService.getById(1L);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/moments")
     List<MomentResDto> getAll(){
         User auth = this.getAuthUser(1L);
@@ -41,9 +47,10 @@ public class MomentController {
         return moment;
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/moments")
     Moment createMoment(@RequestBody MomentRequestDto momentRequestDto){
-        User authUser = getAuthUser(momentRequestDto.getUserId());
+        var authUser = authenticationFacade.getAuthUser();
         return momentService.create(momentRequestDto, authUser);
     }
 

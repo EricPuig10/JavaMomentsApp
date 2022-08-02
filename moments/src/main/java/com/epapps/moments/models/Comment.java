@@ -1,5 +1,6 @@
 package com.epapps.moments.models;
 
+import com.epapps.moments.models2.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;

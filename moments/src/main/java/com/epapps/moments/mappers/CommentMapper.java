@@ -4,7 +4,7 @@ import com.epapps.moments.dtos.comment.CommentRequestDto;
 import com.epapps.moments.dtos.comment.CommentResDto;
 import com.epapps.moments.models.Comment;
 import com.epapps.moments.models.Moment;
-import com.epapps.moments.models.User;
+import com.epapps.moments.models2.User;
 
 public class CommentMapper {
     public Comment mapReqToComment(CommentRequestDto req, Moment moment, User creator){
