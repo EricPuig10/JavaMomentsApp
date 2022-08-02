@@ -25,7 +25,7 @@ class UserServiceTest {
     public User create(Long id){
         User user = new User();
         user.setId(id);
-        user.setUserName("username");
+        user.setUsername("username");
         user.setUserImg("avatar");
         user.setEmail("email");
         user.setName("name");
@@ -76,7 +76,7 @@ class UserServiceTest {
         UserCreateDto req = new UserCreateDto("name", "username", "password", "name");
         Mockito.when(userRepository.save(any(User.class))).thenReturn(user);
         var sut = userService.createUser(req);
-        assertThat(sut.getUserName(), equalTo(user.getUserName()));
+        assertThat(sut.getUserName(), equalTo(user.getUsername()));
         assertThat(sut.getName(), equalTo(user.getName()));
     }
 
