@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ICommentRepository extends JpaRepository<Comment, Long> {
-@Query("select c from Comment c where c.moment.id = :id")
+@Query("select c from Comment c where c.moment.id = :id order by c.id DESC")
      List<Comment> findByMomentId(@Param("id")Long id);
 
      @Query("select c from Comment c where c.moment.id = :id order by c.id DESC")

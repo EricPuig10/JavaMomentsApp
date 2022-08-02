@@ -56,29 +56,31 @@ public class FavService implements IFavService{
         return this.fav(fav);
     }
 
+    /*
     @Override
     public boolean toggleFavComment(FavCommentReqDto req, User auth) {
         var comment = commentRepository.findById(req.getCommentId());
         var faver = auth;
         if(comment.isEmpty() || faver == null) throw  new NotFoundException("Comment is Empty", "P-153");
-        if(comment.get().getCreator().getId() == faver.getId()) throw new BadRequestException("Comment creator can't like its own moment", "P-153");
+        if(comment.get().getCreator() == faver) throw new BadRequestException("Comment creator can't like its own comment", "P-153");
         var fav = new FavMapper().mapCommentReqToFav(faver, comment.get());
         var result = this.checkIfCommentIsAlreadyLiked(fav);
         if(result.isPresent()){
             return this.disfav(result.get());
         }
         return this.fav(fav);
-    }
+    }*/
 
     private Optional<Fav> checkIfLikeAlreadyExists(Fav fav){
         List<Fav> favs = favRepository.findByMomentId(fav.getMoment().getId());
         return favs.stream().filter(Fav -> Fav.getFaver() == fav.getFaver()).findAny();
     }
 
+    /*
     private Optional<Fav> checkIfCommentIsAlreadyLiked(Fav fav){
         List<Fav> favs = favRepository.findByMomentId(fav.getComment().getId());
         return favs.stream().filter(Fav -> Fav.getFaver() == fav.getFaver()).findAny();
-    }
+    } */
 
     private boolean disfav(Fav fav){
         favRepository.delete(fav);

@@ -32,6 +32,7 @@ public class MomentMapper {
 
     public Moment mapRequestToMomentToEdit(MomentRequestDto momentRequestDto, Moment moment){
         moment.setImgUrl(momentRequestDto.getImgUrl());
+        moment.setTitle(momentRequestDto.getTitle());
         moment.setDescription(momentRequestDto.getDescription());
         moment.setUbication(momentRequestDto.getUbication());
         return moment;

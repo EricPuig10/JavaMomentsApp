@@ -14,5 +14,5 @@ public interface IFavService {
 
     boolean toggleFav(FavReqDto fav, User auth);
 
-    boolean toggleFavComment(FavCommentReqDto fav, User auth);
+    //boolean toggleFavComment(FavCommentReqDto fav, User auth);
 }

@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class FavCommentReqDto {
-    Long commentId;
+    Long commentId; //moment.getcomments.getcomment
     Long faverId;
 }

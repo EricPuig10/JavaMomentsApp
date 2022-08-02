@@ -12,7 +12,19 @@ INTO
   (name, user_Name, user_Img, password, email, followers, following, description, date_Of_Birth, ubication)
 VALUES
   ('Monalisa', 'monalisa_official', 'https://ichef.bbci.co.uk/news/640/cpsprodpb/17C16/production/_117320379_giocondacerca.jpg', 'password', 'monalisa@gmail.com', 10, 1, 'Hello', '1aC','Louvre');
+INSERT
+INTO
+  users
+  (name, user_Name, user_Img, password, email, followers, following, description, date_Of_Birth, ubication)
+VALUES
+  ('a', 'a', 'a', 'a', 'a', 0, 0, 'a', 'a', 'a');
 
+  INSERT
+  INTO
+    users
+    (name, user_Name, user_Img, password, email, followers, following, description, date_Of_Birth, ubication)
+  VALUES
+    ('b', 'b', 'b', 'b', 'b', 0, 0, 'b', 'b', 'b');
 
 
   INSERT
@@ -74,4 +86,30 @@ INTO
   comments
   (comment, creator_id, moment_id)
 VALUES
-  ('Soy la mejor', 2, 2);
+  ('Soy la mejor', 2, 1);
+
+INSERT
+INTO
+  moments
+  (description, title, img_Url, ubication, creator_id)
+VALUES
+  ('a', 'a', 'https://cdn.pixabay.com/photo/2017/02/01/22/02/mountain-landscape-2031539_960_720.jpg', 'Tona', 2);
+
+INSERT
+INTO
+  favs
+  (faver_id, moment_id)
+VALUES
+  (3, 2);
+  INSERT
+  INTO
+    favs
+    (faver_id, moment_id)
+  VALUES
+    (4, 2);
+  INSERT
+  INTO
+    favs
+    (faver_id, moment_id)
+  VALUES
+    (4, 1);

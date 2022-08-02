@@ -7,6 +7,8 @@ import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
 import com.epapps.moments.services.IMomentService;
 import com.epapps.moments.services.IUserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,9 +57,10 @@ public class MomentController {
 
 
     @DeleteMapping("/moments/{id}")
-    public boolean deleteMoment(@PathVariable Long id, @RequestBody UserFindRequestDto userFindRequestDto) {
-        User authUser = getAuthUser(userFindRequestDto.getId());
-        return momentService.deleteMoment(id, authUser);
+    ResponseEntity<MomentResDto> deleteMoment(@PathVariable Long id) {
+        User authUser = getAuthUser(1L);
+        var moment=  momentService.deleteMoment(id, authUser);
+        return new ResponseEntity<>(moment, HttpStatus.OK);
     }
 
     /*

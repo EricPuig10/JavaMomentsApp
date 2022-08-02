@@ -28,6 +28,7 @@ public class Comment {
     @JsonIgnore
     private Moment moment;
 
+    /*
     @OneToMany(mappedBy = "comment")
     @JsonIgnore
     private List<Fav> favComments =  new ArrayList<>();
@@ -54,7 +55,7 @@ public class Comment {
             return false;
         }
         return true;
-    }
+    } */
 
 
 }

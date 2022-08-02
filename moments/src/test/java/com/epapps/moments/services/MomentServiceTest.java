@@ -2,6 +2,7 @@ package com.epapps.moments.services;
 
 import com.epapps.moments.dtos.moment.MomentRequestDto;
 import com.epapps.moments.dtos.moment.MomentResDto;
+import com.factoria.moments.exceptions.BadRequestException;
 import com.epapps.moments.exceptions.NotFoundException;
 import com.epapps.moments.mappers.MomentMapper;
 import com.epapps.moments.models.Moment;
@@ -103,59 +104,26 @@ class MomentServiceTest {
 
 
     @Test
-    void deleteMoment() {
-        var momentService = new MomentService(momentsRepository);
-
-        User creator = new User();
-        creator.setId(1L);
-
-
-        var moment = new Moment();
-        moment.setId(1L);
-        moment.setTitle("moment amb id 1");
-        moment.setCreator(creator);
-
+    void deleteShouldReturnDeletedMoment() {
         Long id = 1L;
-
-        var momentList = List.of(moment, new Moment());
-
+        var momentService = new MomentService(momentsRepository);
+        Moment moment = createMoment();
         Mockito.when(momentsRepository.findById(any(Long.class))).thenReturn(Optional.of(moment));
-
-
-        var sut = momentService.deleteMoment(1L, creator);
-
-        assertThat(sut, equalTo(true));
-
+        var sut = momentService.deleteMoment(id, moment.getCreator());
+        assertThat(sut.getDescription(), equalTo(moment.getDescription()));
     }
 
-
     @Test
-    void momentCantBeDeletedForAUserThatIsntAuth(){
+    void deleteThrowsBadReqWhenUserIsntAuth(){
         var momentService = new MomentService(momentsRepository);
-
-        User creator = new User();
-        creator.setId(1L);
-
-        User notcreator =  new User();
-        notcreator.setId(2L);
-
-
-        var moment = new Moment();
-        moment.setId(1L);
-        moment.setTitle("moment amb id 1");
-        moment.setCreator(notcreator);
-
-        Long id = 1L;
-
-        var momentList = List.of(moment, new Moment());
-
-        Mockito.when(momentsRepository.findById(any(Long.class))).thenReturn(Optional.of(moment));
-
-
-        var sut = momentService.deleteMoment(1L, creator);
-
-        assertThat(sut, equalTo(null));
-
+        var moment = createMoment();
+        Mockito.when(momentsRepository.findById(1L)).thenReturn(Optional.ofNullable(moment));
+        Exception ex = assertThrows(BadRequestException.class, ()->{
+            momentService.deleteMoment(1L, new User());
+        });
+        var res = "Not user auth";
+        var sut = ex.getMessage();
+        assertTrue(sut.equals(res));
     }
 
 
@@ -186,24 +154,21 @@ class MomentServiceTest {
 
 
     @Test
-    void updateAMomentReturnsNullIfUserIsntAuth() {
+    void updateAMomentReturnsNullIfUserIsntAuthAndThrowsAnException() {
         var momentService = new MomentService(momentsRepository);
-        var req = new MomentRequestDto("tit1", "img1", "des1", "ubi1", 1L);
+        var req = new MomentRequestDto("tit1", "img1", "desc1", "loc1", 1L);
         Long id = 1L;
-
-        var user = new User();
-        user.setId(1L);
-        var userNonAuth = new User();
-        user.setId(3L);
-
         Moment moment = this.createMoment();
-
+        var user = new User();
+        user.setId(2L);
         Mockito.when(momentsRepository.findById(any(Long.class))).thenReturn(Optional.of(moment));
         Mockito.when(momentsRepository.save(any(Moment.class))).thenReturn(moment);
-
-        var sut = momentService.updateAMoment(req, id, userNonAuth);
-
-        assertThat(sut, equalTo(null));
+        Exception exception = assertThrows(BadRequestException.class, ()->{
+            momentService.updateAMoment(req, id, user);
+        });
+        var res = "Moment can't be edited if you arent creator";
+        var sut = exception.getMessage();
+        assertTrue(sut.equals(res));
 
     }
 

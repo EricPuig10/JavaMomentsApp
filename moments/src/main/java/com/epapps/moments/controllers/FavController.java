@@ -45,12 +45,13 @@ public class FavController {
         return new ResponseEntity<>(isFaved, HttpStatus.OK);
     }
 
+    /*
     @PostMapping("/favscomment")
     ResponseEntity<Boolean> like(@RequestBody FavCommentReqDto fav){
         User auth = this.getAuth(1L);
         var isFaved = favService.toggleFavComment(fav, auth);
         return new ResponseEntity<>(isFaved, HttpStatus.OK);
-    }
+    }*/
 
 
 

@@ -25,6 +25,7 @@ public class CommentMapper {
         return resDto;
     }
 
+    /*
     public CommentResDto mapCommentToResWithAuth(Comment comment, User auth) {
         CommentResDto resDto = new CommentResDto();
         resDto.setId(comment.getId());
@@ -33,5 +34,5 @@ public class CommentMapper {
         resDto.setFaved(comment.isFaved(auth));
         resDto.setCreator( new UserMapper().mapUserToResDtoMoment(comment.getCreator()));
         return resDto;
-    }
+    }*/
 }

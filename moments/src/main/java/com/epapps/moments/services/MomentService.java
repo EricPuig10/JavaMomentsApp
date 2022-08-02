@@ -7,6 +7,7 @@ import com.epapps.moments.mappers.MomentMapper;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models.User;
 import com.epapps.moments.repositories.IMomentsRepository;
+import com.factoria.moments.exceptions.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -57,9 +58,7 @@ public class MomentService implements IMomentService {
 
     if(moment.isEmpty()) throw new NotFoundException("Moment Not Found", "M-404");
 
-    if(auth.getId() != moment.get().getCreator().getId()) {
-        return null;
-    }
+    if(!moment.get().getCreator().getId().equals(auth.getId())) throw new BadRequestException("Moment can't be edited if you arent creator", "P-153");
         Moment updatedMoment = new MomentMapper().mapRequestToMomentToEdit(momentRequestDto, moment.get());
         momentsRepository.save(updatedMoment);
         MomentResDto momentRes = new MomentMapper().mapToRes(updatedMoment, auth);
@@ -67,11 +66,12 @@ public class MomentService implements IMomentService {
     }
 
     @Override
-    public Boolean deleteMoment(Long id, User auth) {
+    public MomentResDto deleteMoment(Long id, User auth) {
         Moment moment = this.momentsRepository.findById(id).get();
-        if(!moment.getCreator().getId().equals(auth.getId())) return null;
+        if(!moment.getCreator().getId().equals(auth.getId())) throw new BadRequestException("Not user auth", "P-154");
+        MomentResDto resMoment = new MomentMapper().mapToRes(moment, auth);
         this.momentsRepository.delete(moment);
-        return true;
+        return resMoment;
     }
 
     @Override
