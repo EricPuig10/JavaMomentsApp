@@ -1,7 +1,7 @@
 package com.epapps.moments.services;
 
 import com.epapps.moments.dtos.user.UserCreateDto;
-import com.epapps.moments.models.User;
+import com.epapps.moments.models2.User;
 import com.epapps.moments.repositories.IUserRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -28,7 +28,6 @@ class UserServiceTest {
         user.setUsername("username");
         user.setImg("avatar");
         user.setEmail("email");
-        user.setName("name");
         user.setPassword("password");
         user.setDateOfBirth("date");
         user.setDescription("description");
@@ -44,7 +43,7 @@ class UserServiceTest {
 
         var user = new User();
         user.setId(1L);
-        user.setName("user");
+        user.setUsername("user");
 
         Long id = 1L;
 
@@ -52,7 +51,7 @@ class UserServiceTest {
 
         var sut = userService.getById(id);
 
-        assertThat (sut.getName(), equalTo(user.getName()));
+        assertThat (sut.getUsername(), equalTo(user.getUsername()));
     }
 
     @Test
@@ -73,11 +72,11 @@ class UserServiceTest {
         Long id = 1L;
         UserService userService = new UserService(userRepository);
         User user = this.create(id);
-        UserCreateDto req = new UserCreateDto("name", "username", "password", "name");
+        UserCreateDto req = new UserCreateDto("username", "password");
         Mockito.when(userRepository.save(any(User.class))).thenReturn(user);
         var sut = userService.createUser(req);
         assertThat(sut.getUsername(), equalTo(user.getUsername()));
-        assertThat(sut.getName(), equalTo(user.getName()));
+
     }
 
 }

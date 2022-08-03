@@ -37,10 +37,11 @@ public class MomentController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/moments")
     List<MomentResDto> getAll(){
-        User auth = this.getAuthUser(1L);
+        User auth = authenticationFacade.getAuthUser();
         return momentService.getAll(auth);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping ("/moments/{id}")
     Moment getMomentById(@PathVariable Long id){
         var moment = this.momentService.findById(id);
@@ -55,17 +56,19 @@ public class MomentController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/moments/{id}")
     MomentResDto updateMoment(@PathVariable Long id, @RequestBody MomentRequestDto momentRequestDto){
-        User authUser = getAuthUser(1L);
+        User authUser = authenticationFacade.getAuthUser();
 
         return momentService.updateAMoment(momentRequestDto, id, authUser);
     }
 
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/moments/{id}")
     ResponseEntity<MomentResDto> deleteMoment(@PathVariable Long id) {
-        User authUser = getAuthUser(1L);
+        User authUser = authenticationFacade.getAuthUser();
         var moment=  momentService.deleteMoment(id, authUser);
         return new ResponseEntity<>(moment, HttpStatus.OK);
     }
@@ -79,19 +82,22 @@ public class MomentController {
 
 
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value="/moments", params="search")
     List<Moment> getSearch(@RequestParam String search){
         return momentService.search(search);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/moments/{id}/users")
     List<Moment> getMomentsByUser(@PathVariable Long id){
         return momentService.findByUserMoments(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/fav-moments")
     List <MomentResDto> getUserFavMoments(){
-        User auth = this.getAuthUser(1L);
+        User auth = authenticationFacade.getAuthUser();
         return momentService.getUserFavedMoments(auth);
     }
 

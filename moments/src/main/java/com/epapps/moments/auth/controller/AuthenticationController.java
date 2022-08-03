@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/auth")
 public class AuthenticationController {
 

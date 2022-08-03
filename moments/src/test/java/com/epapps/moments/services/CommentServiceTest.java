@@ -5,7 +5,7 @@ import com.epapps.moments.dtos.comment.CommentResDto;
 import com.epapps.moments.mappers.CommentMapper;
 import com.epapps.moments.models.Comment;
 import com.epapps.moments.models.Moment;
-import com.epapps.moments.models.User;
+import com.epapps.moments.models2.User;
 import com.epapps.moments.repositories.ICommentRepository;
 import com.epapps.moments.repositories.IMomentsRepository;
 import com.epapps.moments.repositories.IUserRepository;
