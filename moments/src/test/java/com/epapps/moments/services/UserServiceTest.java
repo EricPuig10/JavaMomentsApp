@@ -67,16 +67,6 @@ class UserServiceTest {
         assertThat (sut.size(), equalTo(2));
     }
 
-    @Test
-    void createUser() {
-        Long id = 1L;
-        UserService userService = new UserService(userRepository);
-        User user = this.create(id);
-        UserCreateDto req = new UserCreateDto("username", "password");
-        Mockito.when(userRepository.save(any(User.class))).thenReturn(user);
-        var sut = userService.createUser(req);
-        assertThat(sut.getUsername(), equalTo(user.getUsername()));
 
-    }
 
 }
