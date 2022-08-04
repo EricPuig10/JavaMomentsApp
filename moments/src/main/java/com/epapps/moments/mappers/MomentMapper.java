@@ -6,6 +6,9 @@ import com.epapps.moments.dtos.moment.MomentResDto;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models2.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MomentMapper {
     public Moment mapToMoment(MomentRequestDto momentDto){
         Moment moment = new Moment();
@@ -30,12 +33,20 @@ public class MomentMapper {
         return  resMoment;
     }
 
+
+
     public Moment mapRequestToMomentToEdit(MomentRequestDto momentRequestDto, Moment moment){
         moment.setImgUrl(momentRequestDto.getImgUrl());
         moment.setTitle(momentRequestDto.getTitle());
         moment.setDescription(momentRequestDto.getDescription());
         moment.setUbication(momentRequestDto.getUbication());
         return moment;
+    }
+
+    public List<MomentResDto> mapMultipleMomentsToRes(List<Moment> moments, User auth){
+        List<MomentResDto> res = new ArrayList<>();
+        moments.forEach(Moment -> res.add(this.mapToRes(Moment, auth)));
+        return res;
     }
 
 

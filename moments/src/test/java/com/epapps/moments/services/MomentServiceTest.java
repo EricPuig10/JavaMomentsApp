@@ -88,17 +88,12 @@ class MomentServiceTest {
     void findByIdReturnsAnIdIfExists() {
 
         var momentService = new MomentService(momentsRepository);
-
-        var moment = new Moment();
-        moment.setId(1L);
-
-
-        Mockito.when(momentsRepository.findById(1L)).thenReturn(Optional.of(moment));
-
-        Long id = 1L;
-        var sut = momentService.findById(id);
-
-        assertThat (sut.getId(), equalTo(moment.getId()));
+        var moment = this.createMoment();
+        var user = new User();
+        user.setId(1L);
+        Mockito.when(momentsRepository.findById(any(Long.class))).thenReturn(Optional.of(moment));
+        var sut = momentService.findById(1L, user);
+        assertThat(sut.getDescription(),  equalTo(moment.getDescription()));
 
     }
 
@@ -197,29 +192,17 @@ class MomentServiceTest {
 
 
     @Test
-    void searchShouldReturnAListOfMoments() {
+    void searchShouldReturnAListOfResMoments() {
         var momentService = new MomentService(momentsRepository);
-        Moment moment = new Moment();
-        moment.setTitle("title");
-        moment.setDescription("desc");
-        moment.setUbication("ubi");
-        moment.setImgUrl("img");
-
-        Moment moment2 = new Moment();
-        moment2.setTitle(moment.getTitle());
-        moment2.setDescription(moment.getDescription());
-        moment2.setImgUrl(moment.getImgUrl());
-        moment2.setUbication(moment.getUbication());
-
-        var searched = List.of(moment);
-
-        var found = List.of(moment2);
-
-        Mockito.when(momentsRepository.findByDescriptionOrTitleContaining(any(String.class))).thenReturn(searched);
-
-        var sut = momentService.search("title");
-
-        assertThat(sut, equalTo(found));
+        Moment moment = this.createMoment();
+        var user = new User();
+        user.setId(1L);
+        MomentResDto res = new MomentMapper().mapToRes(moment, user);
+        var filtered = List.of(moment);
+        var foundMoments = List.of(res);
+        Mockito.when(momentsRepository.findByDescriptionOrTitleContaining(any(String.class))).thenReturn(filtered);
+        var sut = momentService.search("desc", user);
+        assertThat(sut, equalTo(foundMoments));
 
 
     }

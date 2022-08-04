@@ -32,13 +32,6 @@ public class UserService implements IUserService{
         return users;
     }
 
-    @Override
-    public UserWithoutPasswordResDto createUser(UserCreateDto userCreateDto) {
-
-        User user = new UserMapper().mapCreateReqToUser(userCreateDto);
-        return new UserMapper().mapUserToUserWithoutPasswordDto(userRepository.save(user));
-
-    }
-
+    //aqui anira update
 
 }

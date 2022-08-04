@@ -30,11 +30,12 @@ public class MomentController {
         this.authenticationFacade = authenticationFacade;
     }
 
+    /*
     private User getAuthUser(Long id) {
         return userService.getById(1L);
-    }
+    }*/
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+
     @GetMapping("/moments")
     List<MomentResDto> getAll(){
         User auth = authenticationFacade.getAuthUser();
@@ -43,8 +44,9 @@ public class MomentController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping ("/moments/{id}")
-    Moment getMomentById(@PathVariable Long id){
-        var moment = this.momentService.findById(id);
+    MomentResDto getMomentById(@PathVariable Long id){
+        User auth = authenticationFacade.getAuthUser();
+        var moment = this.momentService.findById(id, auth);
         return moment;
     }
 
@@ -73,25 +75,19 @@ public class MomentController {
         return new ResponseEntity<>(moment, HttpStatus.OK);
     }
 
-    /*
-    @PatchMapping("/moments/{id}/like")
-    Moment like(@PathVariable Long id, @RequestBody Moment moment){
-        //User auth = getAuthUser();
-        return momentService.like(id, moment);
-    }*/
-
-
-
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value="/moments", params="search")
-    List<Moment> getSearch(@RequestParam String search){
-        return momentService.search(search);
+
+    List<MomentResDto> getSearch(@RequestParam String search){
+        User authUser = authenticationFacade.getAuthUser();
+        return momentService.search(search, authUser);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/moments/{id}/users")
-    List<Moment> getMomentsByUser(@PathVariable Long id){
-        return momentService.findByUserMoments(id);
+    List<MomentResDto> getMomentsByUser(@PathVariable Long id){
+        User authUser = authenticationFacade.getAuthUser();
+        return momentService.findByUserMoments(id, authUser);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

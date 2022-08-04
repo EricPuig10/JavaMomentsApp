@@ -1,5 +1,6 @@
 package com.epapps.moments.repositories;
 
+import com.epapps.moments.dtos.moment.MomentResDto;
 import com.epapps.moments.models.Moment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

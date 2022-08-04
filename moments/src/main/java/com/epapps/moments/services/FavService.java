@@ -1,7 +1,9 @@
 package com.epapps.moments.services;
 
+import com.epapps.moments.auth.facade.IAuthenticationFacade;
 import com.epapps.moments.dtos.fav.FavCommentReqDto;
 import com.epapps.moments.dtos.fav.FavReqDto;
+import com.epapps.moments.dtos.fav.FavResDto;
 import com.epapps.moments.exceptions.NotFoundException;
 import com.epapps.moments.mappers.FavMapper;
 import com.epapps.moments.models.Fav;
@@ -21,32 +23,29 @@ public class FavService implements IFavService{
 
     IFavRepository favRepository;
     IMomentsRepository momentsRepository;
-    IUserRepository userRepository;
+    IAuthenticationFacade authenticationFacade;
 
-    ICommentRepository commentRepository;
-
-    public FavService(IFavRepository favRepository, IMomentsRepository momentsRepository, IUserRepository userRepository, ICommentRepository commentRepository) {
+    public FavService(IFavRepository favRepository, IMomentsRepository momentsRepository, IAuthenticationFacade authenticationFacade){
         this.favRepository = favRepository;
         this.momentsRepository = momentsRepository;
-        this.userRepository = userRepository;
-        this.commentRepository = commentRepository;
+        this.authenticationFacade = authenticationFacade;
     }
 
     @Override
-    public List<Fav> getAll() {
-        return favRepository.findAll();
+    public List<FavResDto> getAll() {
+        return new FavMapper().mapMultipleFavsToFavsDto(favRepository.findAll());
     }
 
     @Override
-    public List<Fav> getMomentFavs(Long id) {
-        return favRepository.findByMomentId(id);
+    public List<FavResDto> getMomentFavs(Long id) {
+        return new FavMapper().mapMultipleFavsToFavsDto(favRepository.findByMomentId(id));
     }
 
     @Override
-    public boolean toggleFav(FavReqDto req, User auth) {
+    public boolean toggleFav(FavReqDto req) {
         var moment = momentsRepository.findById(req.getMomentId());
-        var faver = auth;
-        if(moment.isEmpty() || faver == null) throw  new NotFoundException("Moment is Empty", "P-153");
+        var faver = authenticationFacade.getAuthUser();
+        if(faver == null) throw  new NotFoundException("User Not Found", "P-153");
         if(moment.get().getCreator() == faver) throw new BadRequestException("Moment creator can't like its own moment", "P-153");
         var fav = new FavMapper().mapReqToFav(faver, moment.get());
         var result = this.checkIfLikeAlreadyExists(fav);

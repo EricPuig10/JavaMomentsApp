@@ -1,5 +1,6 @@
 package com.epapps.moments.services;
 
+import com.epapps.moments.auth.facade.IAuthenticationFacade;
 import com.epapps.moments.models.Fav;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models2.User;
@@ -28,13 +29,15 @@ class FavServiceTest {
     @Mock
     IFavRepository favRepository;
     @Mock
-    ICommentRepository commentRepository;
+    IAuthenticationFacade authenticationFacade;
+
+
 
 
     @Test
     void getAllShouldReturnListOfLikes() {
         int n = 3;
-        var favService = new FavService(favRepository, momentsRepository, userRepository,commentRepository);
+        var favService = new FavService(favRepository, momentsRepository, authenticationFacade);
         List<Fav> favs = this.createFavs(n);
         Mockito.when(favRepository.findAll()).thenReturn(favs);
         var sut = favService.getAll();

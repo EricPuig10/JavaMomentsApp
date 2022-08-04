@@ -13,17 +13,17 @@ public interface IMomentService {
 
     Moment create(MomentRequestDto momentDto, User authUser);
 
-    Moment findById(Long id);
+    MomentResDto findById(Long id, User auth);
 
     MomentResDto updateAMoment(MomentRequestDto momentRequestDto, Long id, User authUser);
 
     MomentResDto deleteMoment(Long id, User authUser);
 
-    List<Moment> search(String search);
+    List<MomentResDto> search(String search, User auth);
 
     //Moment like(Long id, Moment moment);
 
-    List<Moment> findByUserMoments(Long id);
+    List<MomentResDto> findByUserMoments(Long id, User auth);
 
     List<MomentResDto> getUserFavedMoments(User auth);
 }

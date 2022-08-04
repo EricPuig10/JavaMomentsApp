@@ -12,7 +12,7 @@ public interface ICommentService {
 
     Comment findById(Long id);
 
-    CommentResDto create(CommentRequestDto commentDto);
+    CommentResDto create(CommentRequestDto commentDto, User auth);
 
 
     List<CommentResDto> findByMoment(Long id);

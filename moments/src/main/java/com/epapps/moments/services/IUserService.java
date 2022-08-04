@@ -14,7 +14,7 @@ public interface IUserService {
 
     List<User> findAll();
 
-    UserWithoutPasswordResDto createUser(UserCreateDto userCreateDto);
+    //update
 
 
 }

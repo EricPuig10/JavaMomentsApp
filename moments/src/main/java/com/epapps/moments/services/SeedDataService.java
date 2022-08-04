@@ -1,16 +1,22 @@
 package com.epapps.moments.services;
 
+import com.epapps.moments.dtos.moment.MomentJsonRequest;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models2.Role;
 import com.epapps.moments.models2.User;
 import com.epapps.moments.repositories.IMomentsRepository;
-import com.epapps.moments.repositories.IUserRepository;
 import com.epapps.moments.repositories2.AuthRepository;
 import com.epapps.moments.repositories2.RoleRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -30,16 +36,8 @@ public class SeedDataService {
 
     @PostConstruct
     public void addData(){
-        createUser();
-        createMoment();
-        createMoment();
-        createMoment();
-        createMoment();
-        createMoment();
-        createMoment();
-        createMoment();
-        createMoment();
-
+        this.createUser();
+        this.createMultipleMoments();
     }
 
 
@@ -62,15 +60,30 @@ public class SeedDataService {
 
     }
 
-    public void createMoment(){
-        //if(!momentRepository.findAll().isEmpty()) return;
-        var eric = authRepository.findById(2L).get();
+    public Moment createMoment(String ubi, String title, String desc, String img, String username){
         var moment = new Moment();
-        moment.setTitle("Title");
-        moment.setUbication("Ubi");
-        moment.setDescription("Des");
-        moment.setImgUrl("https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297__340.jpg");
-        moment.setCreator(eric);
-        momentRepository.save(moment);
+        moment.setUbication(ubi);
+        moment.setTitle(title);
+        moment.setDescription(desc);
+        moment.setImgUrl(img);
+        moment.setCreator(authRepository.findByUsername(username).get());
+        return moment;
     }
+
+    public void createMultipleMoments(){
+        List<Moment> moments = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+        TypeReference<List<MomentJsonRequest>> typeReference = new TypeReference<List<MomentJsonRequest>>(){};
+        InputStream inputStream = TypeReference.class.getResourceAsStream("/moments.json");
+        try{
+            List<MomentJsonRequest> momentsReq = mapper.readValue(inputStream, typeReference);
+            momentsReq.forEach(req -> moments.add(this.createMoment(req.getUbication(), req.getTitle(), req.getDescription(), req.getImgUrl(), req.getUsername())));
+            momentRepository.saveAll(moments);
+            System.out.println("Moments saved!");
+        }catch (IOException e){
+            System.out.println("Unable to save moments: "+ e.getMessage());
+        }
+    }
+
+
 }

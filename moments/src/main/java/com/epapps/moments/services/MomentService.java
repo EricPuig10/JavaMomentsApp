@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MomentService implements IMomentService {
@@ -46,9 +47,11 @@ public class MomentService implements IMomentService {
     }
 
     @Override
-    public Moment findById(Long id) {
-
-        return momentsRepository.findById(id).get();
+    public MomentResDto findById(Long id, User auth) {
+        Optional<Moment> foundMoment = momentsRepository.findById(id);
+        if(foundMoment.isEmpty()) throw new NotFoundException("Moment Not Found", "M-404");
+        MomentResDto resMoment = new MomentMapper().mapToRes(foundMoment.get(), auth);
+        return resMoment;
     }
 
 
@@ -75,37 +78,15 @@ public class MomentService implements IMomentService {
     }
 
     @Override
-    public List<Moment> search(String search) {
-        var searchCollection = this.momentsRepository.findByDescriptionOrTitleContaining(search);
-        return searchCollection;
+    public List<MomentResDto> search(String search, User auth) {
+        return  new MomentMapper().mapMultipleMomentsToRes(momentsRepository.findByDescriptionOrTitleContaining(search), auth);
     }
-
-    /*
-    @Override
-    public Moment like(Long id, Moment moment) {
-        Moment momentToLike = momentsRepository.findById(moment.getId()).get();
-        //if(moment.getCreator().getId() == auth.getId()) return null;
-        moment.setLiked(!momentToLike.isLiked());
-        if(momentToLike.isLiked() == true) {
-            moment.setLikes(moment.getLikes()-1);
-        } else {
-            moment.setLikes(moment.getLikes()+1);
-        }
-        Moment momentLiked = momentsRepository.save(moment);
-        return momentLiked;
-    }
-    */
 
 
     @Override
-    public List<Moment> findByUserMoments(Long id) {
+    public List<MomentResDto> findByUserMoments(Long id, User auth) {
 
-
-        List<Moment> userMoments = new ArrayList<>();
-
-        momentsRepository.getMomentsByUserId(id).forEach(userMoments::add);
-
-        return userMoments;
+        return new MomentMapper().mapMultipleMomentsToRes(momentsRepository.getMomentsByUserId(id), auth);
     }
 
 
