@@ -37,6 +37,7 @@ public class SeedDataService {
     @PostConstruct
     public void addData(){
         this.createUser();
+        this.createUser2();
         this.createMultipleMoments();
     }
 
@@ -57,6 +58,24 @@ public class SeedDataService {
         eric.setPassword(encoder.encode("12345678"));
 
         authRepository.save(eric);
+
+    }
+
+    public void createUser2(){
+        Set<Role> userRoles = Set.of(roleRepository.findByName(Role.RoleName.ROLE_USER).get());
+        var ari = new User();
+        ari.setUsername("aaaaari");
+        ari.setRoles(userRoles);
+        ari.setDescription("Hey");
+        ari.setUbication("Tona");
+        ari.setEmail("ari@gmail.com");
+        ari.setDateOfBirth("08/01/2003");
+        ari.setFollowers(1);
+        ari.setFollowing(1);
+        ari.setImg("https://thumbs.dreamstime.com/b/avatar-de-mujer-rubia-%C3%ADcono-perfil-chica-sonriente-para-medios-sociales-o-red-negocios-dise%C3%B1o-iconos-usuario-caracteres-198154292.jpg");
+        ari.setPassword(encoder.encode("12345678"));
+
+        authRepository.save(ari);
 
     }
 
