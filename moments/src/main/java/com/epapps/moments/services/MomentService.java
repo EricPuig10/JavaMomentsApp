@@ -10,6 +10,7 @@ import com.epapps.moments.repositories.IMomentsRepository;
 import com.factoria.moments.exceptions.BadRequestException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,9 +20,11 @@ public class MomentService implements IMomentService {
 
     private IMomentsRepository momentsRepository;
 
+
     public MomentService(IMomentsRepository momentsRepository) {
         this.momentsRepository = momentsRepository;
     }
+
 
     @Override
     public List<MomentResDto> getAll(User auth) {
@@ -69,7 +72,7 @@ public class MomentService implements IMomentService {
     }
 
     @Override
-    public MomentResDto deleteMoment(Long id, User auth) {
+    public MomentResDto deleteMoment(Long id, User auth){
         Moment moment = this.momentsRepository.findById(id).get();
         if(!moment.getCreator().getId().equals(auth.getId())) throw new BadRequestException("Not user auth", "P-154");
         MomentResDto resMoment = new MomentMapper().mapToRes(moment, auth);

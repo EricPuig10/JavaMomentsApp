@@ -3,7 +3,7 @@ package com.epapps.moments.dtos.user;
 import lombok.Data;
 
 @Data
-public class UserWithoutPasswordResDto {
+public class UserResDto {
 
     private Long id;
     private String username;

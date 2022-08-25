@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,7 +100,7 @@ class MomentServiceTest {
 
 
     @Test
-    void deleteShouldReturnDeletedMoment() {
+    void deleteShouldReturnDeletedMoment() throws IOException {
         Long id = 1L;
         var momentService = new MomentService(momentsRepository);
         Moment moment = createMoment();
@@ -125,7 +126,7 @@ class MomentServiceTest {
 
 
     @Test
-    void updateShouldUpdateMomentFromReq() {
+    void updateShouldUpdateMomentFromReq() throws IOException {
         var momentService = new MomentService(momentsRepository);
         var req = new MomentRequestDto("tit1", "img1", "des1", "ubi1", 1L);
         Long id = 1L;

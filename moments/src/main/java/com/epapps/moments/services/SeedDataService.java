@@ -54,7 +54,7 @@ public class SeedDataService {
         eric.setDateOfBirth("21/09/2000");
         eric.setFollowers(999);
         eric.setFollowing(1);
-        eric.setImg("https://media-exp2.licdn.com/dms/image/C4D03AQG17WUfd78sgA/profile-displayphoto-shrink_400_400/0/1587477510501?e=1661385600&v=beta&t=lxPzlDjTbmYs0vSz-B7ef95gRfs-T5Dxj_RTLrcSO8Y");
+        eric.setImg("https://res.cloudinary.com/ericpuig10/image/upload/v1661417853/bmf1kchhhqeo20munwos.jpg");
         eric.setPassword(encoder.encode("12345678"));
 
         authRepository.save(eric);

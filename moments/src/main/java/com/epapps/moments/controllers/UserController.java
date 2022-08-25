@@ -1,10 +1,8 @@
 package com.epapps.moments.controllers;
 
 import com.epapps.moments.auth.facade.IAuthenticationFacade;
-import com.epapps.moments.dtos.user.UserCreateDto;
-import com.epapps.moments.dtos.user.UserWithoutPasswordResDto;
-import com.epapps.moments.models.Comment;
-import com.epapps.moments.models.Moment;
+import com.epapps.moments.dtos.user.UserReqDto;
+import com.epapps.moments.dtos.user.UserResDto;
 import com.epapps.moments.models2.User;
 import com.epapps.moments.services.IUserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,9 +38,13 @@ public class UserController {
         return userService.getById(id);
     }
 
-    //aqui anira update user
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/users/{id}")
+    UserResDto updateUser(@PathVariable Long id, @RequestBody UserReqDto userDto) {
+        User authUser = authenticationFacade.getAuthUser();
+        return userService.updateUser(userDto, id, authUser);}
 
 
 
 
-}
+    }

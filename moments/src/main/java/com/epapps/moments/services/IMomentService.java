@@ -5,6 +5,7 @@ import com.epapps.moments.dtos.moment.MomentResDto;
 import com.epapps.moments.models.Moment;
 import com.epapps.moments.models2.User;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IMomentService {

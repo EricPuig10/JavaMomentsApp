@@ -48,7 +48,7 @@ public class RoleRepositoryInitializer {
         user.setRoles(roleRepository.findAll().stream().collect(Collectors.toSet()));
         user.setEmail("admin@admin.com");
         user.setUsername("Admin");
-        user.setImg("https://static.wikia.nocookie.net/memes-pedia/images/2/2a/Soy_admin_3.jpg/revision/latest/scale-to-width-down/250?cb=20210202151823&path-prefix=es");
+        user.setImg("https://pixabay.com/static/img/profile_image_dummy.svg");
         user.setPassword(encoder.encode("12345678"));
 
         authRepository.save(user);

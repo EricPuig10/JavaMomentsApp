@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -60,7 +61,7 @@ public class MomentController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/moments/{id}")
-    MomentResDto updateMoment(@PathVariable Long id, @RequestBody MomentRequestDto momentRequestDto){
+    MomentResDto updateMoment(@PathVariable Long id, @RequestBody MomentRequestDto momentRequestDto) {
         User authUser = authenticationFacade.getAuthUser();
 
         return momentService.updateAMoment(momentRequestDto, id, authUser);
